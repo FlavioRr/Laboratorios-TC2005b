@@ -20,6 +20,34 @@ const server = http.createServer((request, response) => {
         response.write('</ul>');
         response.write('<br><br>');
         response.write('<a href="nuevo">Agregar un nuevo capybara</a>');
+        response.write('<h1 id="principal">/</h1>');
+        response.write('<a href="somos">Quienes somos</a>');
+        response.write('<h1 id="principal">/</h1>');
+        response.write('<a href="hola">Hola</a>');
+        response.write('</body>');
+        response.end();
+    } else if (request.url === '/somos' && request.method === 'GET') {
+        response.setHeader('Content-Type', 'text/html');
+        response.write('<!DOCTYPE html>');
+        response.write('<html lang="es-mx"><head>');
+        response.write('<title>Capybaras</title>');
+        response.write('<meta charset="utf-8">');
+        response.write('</head><body>');
+        response.write('<h1 id="principal">Este sitio es de capybaras</h1>');
+        response.write('<h2>Somos los mejores capybaras del oeste :</h2>');
+        response.write('<a href="/">Regresar a la lista de capybaras</a>');
+        response.write('</body>');
+        response.end();
+    } else if (request.url === '/hola' && request.method === 'GET') {
+        response.setHeader('Content-Type', 'text/html');
+        response.write('<!DOCTYPE html>');
+        response.write('<html lang="es-mx"><head>');
+        response.write('<title>Hola</title>');
+        response.write('<meta charset="utf-8">');
+        response.write('</head><body>');
+        response.write('<h1 id="principal">Este sitio es de capybaras</h1>');
+        response.write('<h2>Hola</h2>');
+        response.write('<a href="/">Regresar a la lista de capybaras</a>');
         response.write('</body>');
         response.end();
     } else if (request.url === '/nuevo' && request.method === 'GET') {
