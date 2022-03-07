@@ -1,11 +1,16 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const rutas_capybaras = require('./routes/capybaras.routes');
+const path = require('path');
+
 const app = express();
 
-const bodyParser = require('body-parser');
+app.set('view engine', 'ejs');
+app.set('views', 'views');
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.urlencoded({ extended: false }));
-
-const rutas_capybaras = require('./routes/capybaras.routes');
 
 app.use('/capybaras', rutas_capybaras);
 
