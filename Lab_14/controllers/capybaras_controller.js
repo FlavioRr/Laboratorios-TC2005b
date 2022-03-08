@@ -15,7 +15,7 @@ exports.post_nuevo = (request, response, next) => {
     console.log(request.body);
     const capybara = new Capybara(request.body.nombre);
     capybara.save();
-    response.setHeader('Set-Cookie', 'ultimo_capybara=' + capybara.nombre);
+    response.setHeader('Set-Cookie', 'ultimo_capybara=' + capybara.nombre + '; httponly');
     response.redirect('/capybaras');
 };
 
@@ -25,8 +25,7 @@ exports.listar = (request, response, next) => {
     console.log(request.cookies);
     response.render('lista', {
         capybaras: Capybara.fetchAll(),
-        ultimo_capybara: request.cookies.ultimo_capybara ? request.cookies.ultimo_capybara :
-            " "
+        ultimo_capybara: request.cookies.ultimo_capybara ? request.cookies.ultimo_capybara : " "
     });
     response.render('lista', { capybaras: Capybara.fetchAll() });
 }
