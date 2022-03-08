@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="es-mx">
 
 <head>
@@ -19,7 +18,12 @@
         <div class="nav-wrapper">
             <a href="#" class="brand-logo">Capybaras</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="/capybaras/nuevo">Nuevo</a></li>
+                <% if (username != '') { %>
+                    <li>
+                        <%= username %>
+                    </li>
+                    <li><a href="/users/logout">Salir</a></li>
+                    <% } %>
             </ul>
         </div>
     </nav>
