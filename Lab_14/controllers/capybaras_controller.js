@@ -22,5 +22,11 @@ exports.post_nuevo = (request, response, next) => {
 exports.listar = (request, response, next) => {
     console.log('Ruta /capybaras');
     console.log(request.get('Cookie').split('=')[1]);
+    console.log(request.cookies);
+    response.render('lista', {
+        capybaras: Capybara.fetchAll(),
+        ultimo_capybara: request.cookies.ultimo_capybara ? request.cookies.ultimo_capybara :
+            " "
+    });
     response.render('lista', { capybaras: Capybara.fetchAll() });
 }

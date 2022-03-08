@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const bodyCookie = require('cookie-parser');
 const rutas_capybaras = require('./routes/capybaras.routes');
 const path = require('path');
 
