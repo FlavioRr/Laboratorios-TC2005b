@@ -1,3 +1,5 @@
+const db = require('./util/database');
+
 const capybaras = [
     { nombre: "Pedro" },
     { nombre: "Poncho" },
@@ -19,6 +21,13 @@ module.exports = class Capybara {
 
     //Este método servirá para devolver los objetos del almacenamiento persistente.
     static fetchAll() {
+        db.execute('SELECT * FROM capybaras')
+            .then(([rows, fieldData]) => {
+                console.log(rows);
+            })
+            .catch(err => {
+                console.log(err);
+            });
         return capybaras;
     }
 
