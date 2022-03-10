@@ -1,0 +1,32 @@
+{
+    "name": "lab_11",
+    "version": "1.0.0",
+    "description": "Laboratorio 11",
+    "main": "app.js",
+    "scripts": {
+        "start": "nodemon app.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/FlavioRr/Laboratorios-TC2005b.git"
+    },
+    "keywords": [
+        "node"
+    ],
+    "author": "Flavio Ruvalcaba Leija",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/FlavioRr/Laboratorios-TC2005b/issues"
+    },
+    "homepage": "https://github.com/FlavioRr/Laboratorios-TC2005b#readme",
+    "devDependencies": {
+        "nodemon": "^2.0.15"
+    },
+    "dependencies": {
+        "body-parser": "^1.19.2",
+        "cookie-parser": "^1.4.6",
+        "express": "^4.17.3",
+        "express-session": "^1.17.2"
+    }
+}
