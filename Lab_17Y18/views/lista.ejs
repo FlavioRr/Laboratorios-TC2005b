@@ -7,15 +7,19 @@
                 <div class="col l3 m4 s12">
                     <div class="card">
                         <div class="card-image waves-effect waves-block waves-light">
-                            <img class="activator" src="https://s2.coinmarketcap.com/static/img/coins/200x200/16636.png">
+                            <img class="activator" src="<%= capybara.imagen %>">
                         </div>
                         <div class="card-content">
                             <span class="card-title activator grey-text text-darken-4"><%= capybara.nombre %><i class="material-icons right">more_vert</i></span>
-                            <p><a href="#">This is a link</a></p>
+                            <p>
+                                <%= capybara.created_at %>
+                            </p>
                         </div>
                         <div class="card-reveal">
                             <span class="card-title grey-text text-darken-4"><%= capybara.nombre %><i class="material-icons right">close</i></span>
-                            <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                            <p>
+                                <%= capybara.descripcion %>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -24,11 +28,13 @@
                         <h1>Ahorita no hay capybaras, regresa pronto.</h1>
                         <% } %>
     </div>
-    <strong>¿Qué beneficios encuentras en el estilo MVC?</strong>
-    <p>Es una buena manera de ordenar los documentos mediante la logica, interfaz y los respectivos datos</p>
-    <p>/</p>
-    <strong>¿Encuentras alguna desventaja en el estilo arquitectónico MVC?</strong>
-    <p>MVC es un patrón de diseño orientado a objetos por lo que su implementación es sumamente costosa y difícil en lenguajes que no siguen este paradigma.</p>
-    <br><br>
-    <a href="/capybaras/nuevo">Agregar un nuevo capybara</a>
-    <%- include('includes/foot.ejs') %>
+    <% if (ultimo_capybara != '') { %>
+        <p>El último capybara agregado fue:
+            <%= ultimo_capybara %>
+        </p>
+        <% } %>
+            <br>
+            <a href="/capybaras/nuevo"><i class="material-icons">add</i> Agregar un nuevo capybara</a>
+            <br><br>
+
+            <%- include('includes/foot.ejs') %>
