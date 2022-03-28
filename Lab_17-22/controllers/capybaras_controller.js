@@ -1,5 +1,6 @@
 const path = require('path');
 const Capybara = require('../models/capybara');
+const User = require('../models/user');
 
 exports.cerveza = (request, response, next) => {
     response.sendFile(path.join(__dirname, '..', 'views', 'cerveza_view.html'));
@@ -7,22 +8,31 @@ exports.cerveza = (request, response, next) => {
 
 exports.get_nuevo = (request, response, next) => {
     console.log('GET /capybaras/nuevo');
-    response.render('nuevo', {
-        username: request.session.username ? request.session.username : '',
-        info: ''
-    });
+    User.fetchAll()
+        .then(([usuarios,fielData])=>{
+            response.render('nuevo', {
+                username: request.session.username ? request.session.username : '',
+                info: '',
+                usuarios: usuarios,
+            });
+        }).catch((error)=>{
+            console.log(error);
+        });
 };
 
 exports.post_nuevo = (request, response, next) => {
     console.log('POST /capybaras/nuevo');
     console.log(request.body);
-    const capybara =
-        new Capybara(request.body.nombre, request.body.descripcion, request.body.imagen);
+    console.log(request.file);
+    const capybara = 
+        new Capybara(
+            request.body.nombre, request.body.descripcion, 
+            request.file.filename, request.body.duenio_id);
     capybara.save()
         .then(() => {
             request.session.info = capybara.nombre + ' fue registrado con éxito';
-            response.setHeader('Set-Cookie',
-                'ultimo_capybara=' + capybara.nombre + '; HttpOnly');
+            response.setHeader('Set-Cookie', 
+                'ultimo_capybara='+capybara.nombre+'; HttpOnly');
             response.redirect('/capybaras');
         })
         .catch(err => console.log(err));
@@ -42,11 +52,11 @@ exports.listar = (request, response, next) => {
                 username: request.session.username ? request.session.username : '',
                 ultimo_capybara: request.cookies.ultimo_capybara ? request.cookies.ultimo_capybara : '',
                 info: info //El primer info es la variable del template, el segundo la constante creada arriba
-            });
+            }); 
         })
         .catch(err => {
             console.log(err);
-        });
+        }); 
 }
 
 exports.filtrar = (request, response, next) => {
@@ -63,9 +73,9 @@ exports.filtrar = (request, response, next) => {
                 username: request.session.username ? request.session.username : '',
                 ultimo_capybara: request.cookies.ultimo_capybara ? request.cookies.ultimo_capybara : '',
                 info: info //El primer info es la variable del template, el segundo la constante creada arriba
-            });
+            }); 
         })
         .catch(err => {
             console.log(err);
-        });
+        }); 
 }

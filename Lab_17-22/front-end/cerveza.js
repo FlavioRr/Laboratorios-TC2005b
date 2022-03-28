@@ -36,7 +36,7 @@ function beber(numero) {
         console.log("Beber una cerveza");
     } else if (numero == 0) {
         console.log("No gracias, yo manejo");
-    }
+    }     
 }
 
 beber(numero_cervezas);
@@ -61,7 +61,7 @@ function tabla_cuadrados() {
     let resultado = "<table>";
     for (let i = 1; i <= 10; i++) {
         resultado += "<tr>";
-        resultado += "<td>" + i + "</td>" + "<td>" + i * i + "</td>";
+        resultado += "<td>" + i + "</td>" + "<td>" + i*i + "</td>";
         resultado += "</tr>"
     }
     resultado += "</table>";
@@ -83,3 +83,4 @@ console.log(cervezas);
 for (let i in cervezas) {
     console.log(i);
 }
+

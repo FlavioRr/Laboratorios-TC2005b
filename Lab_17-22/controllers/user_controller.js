@@ -5,13 +5,13 @@ exports.get_login = (request, response, next) => {
     response.render('login', {
         username: request.session.username ? request.session.username : '',
         info: ''
-    });
+    }); 
 };
 
 exports.login = (request, response, next) => {
     User.findOne(request.body.username)
-        .then(([rows, fielData]) => {
-
+        .then(([rows, fielData])=>{
+            
             //Si no existe el usuario, redirige a la pantalla de login
             if (rows.length < 1) {
                 return response.redirect('/users/login');
@@ -32,26 +32,26 @@ exports.login = (request, response, next) => {
                 }).catch(err => {
                     response.redirect('/users/login');
                 });
-        }).catch((error) => {
+        }).catch((error)=>{
             console.log(error)
         });
-
+    
 };
 
 exports.get_signup = (request, response, next) => {
     response.render('signup', {
         username: request.session.username ? request.session.username : '',
         info: ''
-    });
+    }); 
 };
 
 exports.post_signup = (request, response, next) => {
-    const user =
+    const user = 
         new User(request.body.nombre, request.body.username, request.body.password);
     user.save()
-        .then(() => {
-            response.redirect('/users/login');
-        }).catch((error) => {
+        .then(()=>{
+            response.redirect('/users/login'); 
+        }).catch((error)=>{
             console.log(error);
         });
 };
@@ -63,5 +63,5 @@ exports.logout = (request, response, next) => {
 };
 
 exports.root = (request, response, next) => {
-    response.redirect('/users/login');
+    response.redirect('/users/login'); 
 };
