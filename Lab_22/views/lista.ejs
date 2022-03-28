@@ -1,0 +1,35 @@
+<%- include('includes/head.ejs') %>
+    <h1 id="principal">Este sitio es de capybaras chidos</h1>
+    <p>Tenemos los siguientes capybaras:</p>
+    <div class="row">
+    <% if (capybaras.length > 0) { %>
+        <% for (let capybara of capybaras) { %>
+            <div class="col l3 m4 s12">
+                <div class="card">
+                    <div class="card-image waves-effect waves-block waves-light">
+                        <img class="activator" src="<%= capybara.imagen %>">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title activator grey-text text-darken-4"><%= capybara.nombre %><i class="material-icons right">more_vert</i></span>
+                        <p><%= capybara.created_at %></p>
+                    </div>
+                    <div class="card-reveal">
+                        <span class="card-title grey-text text-darken-4"><%= capybara.nombre %><i class="material-icons right">close</i></span>
+                        <p><%= capybara.descripcion %></p>
+                        <p>Su dueño es: <%= capybara.duenio %></p>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    <% } else { %>
+        <h1>Ahorita no hay capybaras, regresa pronto.</h1>
+    <% } %>  
+    </div>
+    <% if (ultimo_capybara != '') { %>
+        <p>El último capybara agregado fue: <%= ultimo_capybara %></p>
+    <% } %>  
+    <br>
+    <a href="/capybaras/nuevo"><i class="material-icons">add</i> Agregar un nuevo capybara</a>
+    <br><br>
+    
+<%- include('includes/foot.ejs') %>

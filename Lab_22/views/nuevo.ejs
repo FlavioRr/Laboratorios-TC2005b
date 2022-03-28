@@ -1,0 +1,29 @@
+<%- include('includes/head.ejs') %>
+    <h1 id="principal">Este sitio es de capybaras</h1>
+    <h2><%= username %>, aquí nacen los capybaras:</h2>
+    <form action="/capybaras/nuevo" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" >
+        <label for="nombre">Nombre: </label>
+        <input type="text" id="nombre" name="nombre" placeholder="Pedro">
+        <label for="descripcion">Descipción: </label>
+        <input type="text" id="descripcion" name="descripcion" placeholder="Le gusta la piña">
+        <br><br>
+        <label for="Imagen">Imagen: </label>
+        <input type="file" id="imagen" name="imagen">
+        <br><br>
+        <div class="input-field col s12">
+            <select name="duenio_id">
+                <option value="" disabled selected>Selecciona al dueño del capybara</option>
+                <% for (let usuario of usuarios) { %>
+                    <option value="<%= usuario.username %>"><%= usuario.nombre %></option>
+                <% } %>
+            </select>
+            <label>Dueño del capybara</label>
+          </div>
+        
+        <br><br>
+        <input type="submit" value="Enviar">
+    </form>
+    <br><br>
+    <a href="/capybaras">Regresar a la lista de capybaras</a>
+<%- include('includes/foot.ejs') %>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"  media="screen,projection"/>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+    <nav>
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo right">Cerveza</a>
+        <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <li><a href="#">Lúpulos</a></li>
+        <li><a href="#">Maltas</a></li>
+        <li><a href="#">Levadura</a></li>
+        </ul>
+    </div>
+    </nav>
+    <div class="container">
+
+        
+        <div class="row">
+            <div class="col l1 m6 s12">Stout tostado</div>
+            <div class="col l4 m6 s12 ">
+                <div class="card">
+                    <div class="card-image">
+                    <img src="http://cdn.shopify.com/s/files/1/0037/3057/1313/products/9_a235ba54-fc7e-4720-85df-47f3ff8462ab_1200x1200.png">
+                    <span class="card-title">Foca parlante</span>
+                    </div>
+                    <div class="card-content">
+                    <p>Cervecería de Ensenada.</p>
+                    </div>
+                    <div class="card-action">
+                    <a href="https://www.petitroquefort.com/products/foca-parlante" target="_blank">Tienda Petit Roquefort.</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col l4 m6 s12">
+                <!-- Dropdown Trigger -->
+                <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Drop Me!</a>
+                <!-- Dropdown Structure -->
+                <ul id='dropdown1' class='dropdown-content'>
+                    <li><a href="#!">one</a></li>
+                    <li><a href="#!">two</a></li>
+                    <li class="divider" tabindex="-1"></li>
+                    <li><a href="#!">three</a></li>
+                    <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
+                    <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
+                </ul>
+            </div>
+            <div class="col s1">4</div>
+            <div class="col s1">5</div>
+            <div class="col s1">6</div>
+            <div class="col s1">7</div>
+            <div class="col s1">8</div>
+            <div class="col s1">9</div>
+            <div class="col s1">10</div>
+            <div class="col s1">11</div>
+            <div class="col s1">12</div>
+        </div>
+
+        <div class="row">
+            <div id="super_lupe" onclick="mostrar_super_lupe()" class="col l3 m4 s12">Súper Lupe</div>
+            <div id="republica" class="col l3 m4 s12">República</div>
+            <div id="macanuda" class="col l3 m4 s12">Macanuda</div>
+        </div>
+        <div id="imagen"></div>
+
+        <div class="row">
+            <div class="col l3 m4 s12"><label for="favorita">¿Cuál es tu cerveza favorita?</label><input id="favorita" type="text"></div>
+            <div id="respuesta_favorita"></div>
+        </div>
+
+    </div>
+    <footer class="page-footer">
+        <div class="container">
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+            © 2022 Construcción de software y toma de decisiones
+            </div>
+        </div>
+        </footer>
+          
+    <!--JavaScript at end of body for optimized loading-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        M.AutoInit();
+    </script>
+    <script src="documentos_dinamicos.js"></script>
+</body>
+</html>

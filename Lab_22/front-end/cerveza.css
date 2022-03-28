@@ -1,0 +1,30 @@
+
+body {
+    color: #555;;
+    margin: 0 auto;
+    max-width: 50em;
+    line-height: 1.5;
+    padding: 4em 1em;
+}
+
+h1 {
+    background-color: lightblue;
+}
+
+h1,
+h2,
+strong {
+    color: #333;
+}
+
+h1:hover {
+    color: magenta;
+}
+
+.contenido {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#principal {
+    font-size: x-large;
+}
