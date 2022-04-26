@@ -1,0 +1,78 @@
+<%- include('includes/head.ejs') %>
+
+    <div class="container">
+        <h1 id="logo" class="center">Crear Nuevo Template</h1>
+
+        <div class="">
+            <form action="/generar_template/enviar_template" method="post" id="form" class="respuesta_ajax" style="background-color: azure; border-radius: 1%; padding: 20px;">
+                <div>
+                    <div>
+                        <label id="logo" for="">Nombre Categoria</label>
+                        <input required id="titulo" name="titulo"><span class=""></span>
+
+                    </div>
+                    <div>
+                        <label id="logo" for="">Tiempo estimado</label>
+                        <input required id="tiempo" name="tiempo"><span class=""></span>
+                    </div>
+                </div>
+                <div id="divpreg">
+
+                </div>
+                <br></br>
+                <div class="center ">
+                    <button id="logo" type="submit" class="waves-effect waves-light btn grey black-text">Guardar</button>
+                    <a id="logo" href="/home" class="waves-effect waves-light btn grey black-text">Cancelar</a>
+                    <button type="button" id="agregar" class="waves-effect waves-light btn grey black-text">Agregar pregunta</button>
+                    <!-- <button type="button" id="eliminar" class="waves-effect waves-light btn">Eliminar pregunta</button>  -->
+                </div>
+
+            </form>
+
+
+        </div>
+    </div>
+    <br></br>
+
+    <script>
+        (function añadir(){
+            const $btnAdd = document.getElementById("agregar")
+            const $form = document.getElementById("divpreg")
+            const templateElement = () => {
+                return (`
+                
+                        <div class="row col s6" id="preg">
+                            <label for="ID_pregunta">Pregunta nueva</label>
+                            <input required id="texto_pregunta" name="texto_pregunta"><span ></span><button type="button" id="eliminar" class="waves-effect waves-light btn">Eliminar pregunta</button>
+                        </div>
+                    
+                `)
+            }
+            $btnAdd.addEventListener("click", (event) => {
+                const $div = document.createElement("div")
+                $div.innerHTML = templateElement()
+                $form.insertBefore($div, $form.lastChild)
+                const $btnEli = document.getElementById("eliminar")
+                const $form2 = document.getElementById("divpreg")
+                const $div2 = $form2.lastElementChild;
+                console.log($div2);
+                $btnEli.addEventListener("click", (event) => {
+                    $form2.removeChild($div2)
+                })
+            })
+            
+            
+
+        })()
+    </script> 
+<!-- 
+     <script>
+        (function load(){
+            
+
+        })()
+    </script>  -->
+
+
+
+    <%- include('includes/footer.ejs') %>

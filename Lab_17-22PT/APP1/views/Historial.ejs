@@ -1,0 +1,64 @@
+<%- include('includes/head.ejs') %>
+
+    <ul id="dropdown1" class="dropdown-content">
+        <li><a href="#!">Op1</a></li>
+        <li><a href="#!">Op2</a></li>
+        <li><a href="#!">0p3</a></li>
+    </ul>
+    <ul id="dropdown2" class="dropdown-content">
+        <li><a href="#!">Fecha de emision</a></li>
+        <li><a href="#!">Fecha de inicio</a></li>
+        <li><a href="#!">Fecha de finalización</a></li>
+    </ul>
+    <ul id="dropdown3" class="dropdown-content">
+        <li><a href="#!">Categoria1</a></li>
+        <li><a href="#!">Categoria2</a></li>
+        <li><a href="#!">Categoria3</a></li>
+    </ul>
+    <ul id="dropdown4" class="dropdown-content">
+        <li><a href="#!">Baja</a></li>
+        <li><a href="#!">Media</a></li>
+        <li><a href="#!">ALta</a></li>
+        <li><a href="#!">Urgente</a></li>
+    </ul>
+
+    <nav class="grey darken-3">
+        <div class="nav-wrapper">
+            <ul class="right hide-on-med-and-down">
+                <li><a class="dropdown-trigger grey darken-3" href="#!" data-target="dropdown1">Filtrar por ID<i class="material-icons right">arrow_drop_down</i></a></li>
+                <li><a class="dropdown-trigger grey darken-3" href="#!" data-target="dropdown2">Filtrar por fechas<i class="material-icons right">arrow_drop_down</i></a></li>
+                <li><a class="dropdown-trigger grey darken-3" href="#!" data-target="dropdown3">Filtrar por categoria<i class="material-icons right">arrow_drop_down</i></a></li>
+                <li><a class="dropdown-trigger grey darken-3" href="#!" data-target="dropdown4">Filtrar por prioridad<i class="material-icons right">arrow_drop_down</i></a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+
+    <div>
+
+    <table class="striped responsive-table centered" >
+        <thead>
+            <tr>
+                <th>ID</th><th>Titulo</th><th>Categoría</th><th>Fecha de emisión</th><th>Fecha de inicio</th><th>Fecha de finalización</th><th>Prioridad</th>
+            </tr>
+        </thead>
+        <tr>
+            <td>123</td><td>Problema envio</td><td>Categoría 1</td><td>14/03/2022</td><td>15/03/2022</td><td>16/03/2022</td><td>Alta</td>
+        </tr>
+        <tr>
+            <td>456</td><td>Error inicio de sesión</td><td>Categoría 3</td><td>14/03/2022</td><td>15/03/2022</td><td>16/03/2022</td><td>Media</td>
+        </tr>
+        <tr>
+            <td>789</td><td>Error servidor</td><td>Categoría 3</td><td>14/03/2022</td><td>15/03/2022</td><td>16/03/2022</td><td>Baja</td>
+        </tr>
+        <tr>
+            <td>101112</td><td>Problema configuración cuenta</td><td>Categoría 2</td><td>14/03/2022</td><td>15/03/2022</td><td>16/03/2022</td><td>Urgente</td>
+        </tr>
+        <tr>
+            <td>131415</td><td>Dirección incorrecta</td><td>Categoría 1</td><td>14/03/2022</td><td>15/03/2022</td><td>16/03/2022</td><td>Alta</td>
+        </tr>
+    </table>
+
+<%- include('includes/foot.ejs') %>

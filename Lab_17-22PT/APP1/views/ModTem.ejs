@@ -1,0 +1,119 @@
+<%- include('includes/head.ejs') %>
+
+    <div class="">
+        <a id="logo" class="dropdown-trigger btn grey black-text" href="#!" data-target="dropdown1">Cambiar Categoria<i class="material-icons right">arrow_drop_down</i></a>
+        <ul id="dropdown1" class=" hide-on-med-and-down dropdown-content">
+            <% for (let categoria of categorias) { %>
+                <li class="">
+                    <a id="logo" href="/modificar_template/get_preg/<%= categoria.ID_categoria %>" class="">
+                        <%= categoria.nombre_categoria %>
+                    </a>
+
+                </li>
+                <% } %>
+        </ul>
+
+    </div>
+
+
+
+    <form action="/modificar_template/camb_cat/<%= id %>" method="post" id="form" class="respuesta_ajax" style="background-color: azure; border-radius: 1%; padding: 10px;">
+        <h1 id="logo">Modificar template</h1>
+        <div>
+            <div>
+                <label id="logo" for="">Nombre Categoria</label>
+                <input required id="titulo" name="titulo"><span class=""></span>
+                <label for="">Establece nuevo nombre de categoria. </label>
+
+            </div>
+            <div>
+                <label id="logo" for="">Tiempo estimado</label>
+                <input required id="tiempo" name="tiempo"><span class=""></span>
+                <label for="">Establece nuevo tiempo estimado. </label>
+
+            </div>
+        </div>
+
+
+        <% for (let pregunta of preguntas) { %>
+            <div>
+
+                <label id="logo"><%= pregunta.texto_pregunta %></label>
+                <div class="row col s12">
+                    <input type="hidden" name="ID_pregunta" value="<%= pregunta.ID_pregunta %>">
+                    <input required id="texto_pregunta" name="texto_pregunta"><span></span>
+                    <label id="logo">Pregunta nueva</label>
+
+                </div>
+                <% for (let pregunta of preguntas) { %>
+                    <input type="hidden" name="text_preg" id="text_preg" value="<%= pregunta.texto_pregunta %>">
+                    <input type="hidden" name="idtext_preg" id="idtext_preg" value="<%= pregunta.ID_pregunta %>">
+                    <% } %>
+                
+                <% for (let pregunta of preguntas) { %> 
+                    <div id="divpreg">
+
+                        <label><%= pregunta.texto_pregunta %></label>
+                        
+                        <div class="row col s12">
+                            <input type="hidden" name = "ID_pregunta" value="<%= pregunta.ID_pregunta %>">
+                            <input required id="texto_pregunta" name="texto_pregunta"><span ></span>
+                            <label>Pregunta nueva</label>
+                           
+                        </div>
+                        
+                    </div>
+                <% } %>  
+
+                <div class="center ">
+                    <button id="logo" type="submit" class="waves-effect waves-light btn grey black-text">Guardar</button>
+                    <a id="logo" href="/home" class="waves-effect waves-light btn grey black-text">Cancelar</a>
+                    <!-- <button type="button" id="agregar" class="waves-effect waves-light btn">Agregar pregunta</button> -->
+                    <!-- <button href = "/modificar_template/de_preg" type="button" id="eliminar" class="waves-effect waves-light btn">Eliminar pregunta</button> -->
+                </div>
+                <br><br>
+
+    </form>
+    <!-- <form action="" method="post">
+                
+            </form> -->
+    <br><br>
+
+
+
+
+
+
+    <!-- <script>
+        let parameters = []
+
+
+        const addJsonElement = json => {
+            parameters.push(json)
+            return parameters.length - 1
+        }
+
+        (function load(){
+            const $btnAdd = document.getElementById("agregar")
+            const $form = document.getElementById("form")
+            const templateElement = () => {
+                return (`
+                
+                        <div class="row col s6">
+                            <input required id="texto_pregunta" name="texto_respuesta"><span ></span>
+                            <label for="ID_pregunta">Pregunta nueva</label>
+                        </div>
+                    
+                `)
+            }
+            $btnAdd.addEventListener("click", (event) => {
+                const $div = document.createElement("div")
+                $div.innerHTML = templateElement()
+                $form.insertBefore($div, $form.lastChild)
+            })
+
+        })()
+    </script> -->
+
+
+    <%- include('includes/footer.ejs') %>

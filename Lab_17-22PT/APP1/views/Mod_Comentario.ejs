@@ -1,0 +1,30 @@
+<%- include('includes/head.ejs') %>
+
+    <div class="container">
+        <h1 id="logo" class="center">Modificar Comentario</h1>
+
+
+
+        <form action="/mod_comentario/post_comentario/<%= id %>" method="post" id="form">
+            <div style="background-color:aliceblue;padding: 12px;  padding-bottom: 50px; padding-left: 10px; padding-right: 10px;border-radius: 4%;">
+
+                <div class="centers">
+                    <label id="logo" for="">Inserte Comentario</label>
+                    <input required id="comentario" name="comentario"><span class=""></span>
+                </div>
+
+                <div class="center ">
+                    <button id="logo" type="submit" class="waves-effect waves-light btn">Guardar</button>
+                    <a id="logo" href="/home" class="waves-effect waves-light btn">Cancelar</a>
+                </div>
+            </div>
+            <br></br>
+        </form>
+    </div>
+    <br></br>
+
+
+
+
+
+    <%- include('includes/footer.ejs') %>

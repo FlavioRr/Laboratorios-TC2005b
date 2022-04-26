@@ -1,0 +1,840 @@
+<%- include('includes/head.ejs') %>
+
+    <% var i=1; 
+var titulo='';
+if(tipo==1){
+    titulo='Consulta de tickets asignados';
+}
+else if(tipo==2){
+    titulo='Consulta de tickets archivados';
+}
+else if(tipo==3){
+    titulo='Consulta de tickets propios';
+} %>
+
+        <style type="text/css">
+            #hola::-webkit-scrollbar {
+                display: none;
+            }
+            
+            #global {
+                height: 1000px;
+                border: 1px solid #ddd;
+                background: grey;
+                border-radius: 5%;
+                overflow-y: scroll;
+                flex-wrap: wrap;
+            }
+            
+            #global1 {
+                height: 700px;
+                border: 1px solid #ddd;
+                background: grey;
+                border-radius: 5%;
+                overflow-y: scroll;
+                flex-wrap: wrap;
+            }
+            
+            #global::-webkit-scrollbar {
+                display: none;
+            }
+            
+            #global1::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .modal-footer::-webkit-scrollbar {
+                display: none;
+            }
+            
+            #carrusel {
+                background-color: #ddd;
+            }
+            
+            h1 {
+                text-align: center;
+            }
+        </style>
+
+        <h1 id="logo">
+            <%=titulo %>
+        </h1>
+
+        <% if (tipo==1){ %>
+            <nav class="grey lighten-4">
+                <div class="nav-wrapper">
+                    <ul class="left hide-on-med-and-down">
+                        <div class="right input-field col s10">
+                            <a id="logo" class="waves-effect waves-light btn" href="/buscar_tickets/activos">Reiniciar busqueda</a>
+                        </div>
+                        <div class="right input-field col s1">
+                            <label id="logo" for="buscar_estado_1">Estado: </label>
+                            <input type="text" name="buscar_estado_1" id="buscar_estado_1">
+                        </div>
+                        <div class="right input-field col s1">
+                            <label id="logo" for="buscar_prioridad_1">Prioridad: </label>
+                            <input type="text" name="buscar_prioridad_1" id="buscar_prioridad_1">
+                        </div>
+                        <div class="right input-field col s1">
+                            <label id="logo" for="buscar_encargado_1">Encargado: </label>
+                            <input type="text" name="buscar_encargado_1" id="buscar_encargado_1">
+                        </div>
+                        <div class="right input-field col s1">
+                            <label id="logo" for="buscar_id_1">ID del ticket: </label>
+                            <input type="text" name="buscar_id_1" id="buscar_id_1">
+                        </div>
+                    </ul>
+                </div>
+            </nav>
+            <% } else if (tipo == 2) { %>
+                <nav class="grey lighten-4">
+                    <div class="nav-wrapper">
+                        <ul class="left hide-on-med-and-down">
+                            <div class="right input-field col s4">
+                                <a id="logo" class="waves-effect waves-light btn" href="/buscar_tickets/archivo">Reiniciar busqueda</a>
+                            </div>
+                            <div class="right input-field col s4">
+                                <label id="logo" for="buscar_prioridad_2">Prioridad: </label>
+                                <input type="text" name="buscar_prioridad_2" id="buscar_prioridad_2">
+                            </div>
+                            <div class="right input-field col s4">
+                                <label id="logo" for="buscar_encargado_2">Encargado: </label>
+                                <input type="text" name="buscar_encargado_2" id="buscar_encargado_2">
+                            </div>
+                            <div class="right input-field col s4">
+                                <label id="logo" for="buscar_creador_2"><b>Creador: </b></label>
+                                <input type="text" name="buscar_creador_2" id="buscar_creador_2">
+                            </div>
+                            <div class="right input-field col s4">
+                                <label id="logo" for="buscar_id_2">ID del ticket: </label>
+                                <input type="text" name="buscar_id_2" id="buscar_id_2">
+                            </div>
+                        </ul>
+                    </div>
+                </nav>
+                <% } else { %>
+                    <nav class="grey lighten-4">
+                        <div class="nav-wrapper">
+                            <ul class="left hide-on-med-and-down">
+                                <div class="right input-field col s4">
+                                    <a id="logo" class="waves-effect waves-light btn" href="/buscar_tickets/propio">Reiniciar busqueda</a>
+                                </div>
+                                <div class="right input-field col s4">
+                                    <label id="logo" for="buscar_id_3">ID del ticket: </label>
+                                    <input type="text" name="buscar_id_3" id="buscar_id_3">
+                                </div>
+                                <div class="right input-field col s4">
+                                    <label id="logo" for="titulo"><b>Filtrar por: </b></label>
+                                    <input disabled value='' type="text" name="titulo" id="titulo">
+                                </div>
+                            </ul>
+                        </div>
+                    </nav>
+                    <% } %>
+
+                        <div class="row" id="respuesta_ajax">
+                            <div class="col s12">
+                                <div id="global1">
+                                    <blockquote>
+                                        <div class="center">
+                                            <a class="btn tooltipped grey pulse" data-position="bottom" data-tooltip="Soy un ticket Nuevo"></a>
+                                            <a class="btn tooltipped light-blue pulse" data-position="bottom" data-tooltip="Soy un ticket En Curso"></a>
+                                            <a class="btn tooltipped orange pulse" data-position="bottom" data-tooltip="Soy un ticket En Espera de Información"></a>
+                                            <a class="btn tooltipped yellow light-blue pulse" data-position="bottom" data-tooltip="Soy un ticket En Espera de Visto Bueno"></a>
+                                            <a class="btn tooltipped red pulse" data-position="bottom" data-tooltip="Soy un ticket Cancelado"></a>
+                                            <a class="btn tooltipped light-green pulse" data-position="bottom" data-tooltip="Soy un ticket Resuelto"></a>
+                                        </div>
+                                    </blockquote>
+
+                                    <div class=" center">
+                                        <ul class="collection">
+                                            <% var i = 0; %>
+                                                <% var acumodal1 = 0 %>
+                                                    <% var j = 0; %>
+                                                        <%var y = 0%>
+                                                            <%var iconop = ''%>
+                                                                <% for (let ticket of tickets) { %>
+                                                                    <%var color ='grey lighten-2'; 
+                        if (ticket.ID_estado != 1){
+                            if(ticket.ID_estado == 1){ 
+                                color = 'grey lighten-2'; 
+                            } else if(ticket.ID_estado == 2){ 
+                                color = 'light-blue lighten-5'; 
+                            } else if(ticket.ID_estado == 3){ 
+                                color = 'orange lighten-3'; 
+                            } else if(ticket.ID_estado == 4){ 
+                                color = 'yellow light-blue lighten-5'; 
+                            } else if(ticket.ID_estado == 5){ 
+                                color = 'red lighten-4'; 
+                            } else if(ticket.ID_estado == 6){ 
+                                color = 'light-green accent-1'; } 
+                            var prioridad = '';
+                            var color_prioridad = ''
+                            if(ticket.ID_prioridad == 1){
+                                prioridad = 'Por Asignar'
+                                color_prioridad = 'grey lighten-1'
+                                iconop = 'filter_1'
+                            }
+                            if(ticket.ID_prioridad == 2){
+                                prioridad = 'Baja'
+                                color_prioridad ='teal lighten-3'
+                                iconop = 'filter_2'
+                            }
+                            if(ticket.ID_prioridad == 3){
+                                prioridad = 'Media'
+                                color_prioridad ='yellow accent-1'
+                                iconop = 'looks_3'
+                            }
+                            if(ticket.ID_prioridad == 4){
+                                prioridad = 'Alta'
+                                color_prioridad ='orange lighten-2'
+                                iconop = 'looks_4'
+                            }
+                            if(ticket.ID_prioridad == 5){
+                                prioridad = 'Urgente'
+                                color_prioridad ='red lighten-1'
+                                iconop = 'looks_5'
+                            } %>
+                                                                        <li class="collection-item grey">
+                                                                            <div class="col s12 ">
+                                                                                <p class="z-depth-4">
+                                                                                    <div id="carta" class="card">
+                                                                                        <div class="card-content <%=color%>">
+                                                                                            <p id="titulo">
+                                                                                                <b id="logo"><%= ticket.ID_ticket + ": " + ticket.titulo %></b>
+                                                                                                <i class="material-icons left"><%= iconop %></i>
+                                                                                                <a class="waves-effect waves-light  btn-small grey modal-trigger pulse right" href="#modala<%= acumodal1%>"><i class="material-icons">edit</i></a>
+                                                                                            </p>
+                                                                                        </div>
+                                                                                        <div id="modala<%= acumodal1%>" class="modal">
+                                                                                            <div class="modal-content">
+                                                                                                <ul class="collection">
+                                                                                                    <li class="collection-item avatar">
+                                                                                                        <i class="material-icons circle green">folder</i>
+                                                                                                        <span id="logo" class="title">
+                                                                Titulo
+                                                            </span>
+                                                                                                        <h5>
+                                                                                                            <%= ticket.titulo %>
+                                                                                                        </h5>
+                                                                                                        <a href="#!" class="secondary-content">
+
+                                                                                                            <%if((rol != 3 && (tipo == 1 || tipo == 3)) && ticket.ID_estado != 5 && ticket.ID_estado !=6 ){
+                                                                    var ruta='';
+                                                                    if(tipo==3){
+                                                                        ruta='propio';
+                                                                    }
+                                                                    else if(tipo==2){
+                                                                        ruta='archivo';
+                                                                    }
+                                                                    else if(tipo==1){
+                                                                        ruta='activos';
+                                                                    }%>
+
+                                                                                                                <form action="/buscar_tickets/<%=ruta%>" method="POST">
+                                                                                                                    <input for="idticket" id="idticket" name="idticket" type="hidden" value="<%=ticket.ID_ticket%>" />
+                                                                                                                    <button class="btn tooltipped modal-close waves-effect waves-red btn-flat btn-small" data-position="bottom" data-tooltip="Eliminar Ticket" type="submit" name="action"><i class="material-icons">delete</i></button>
+                                                                                                                </form>
+
+                                                                                                                <%}%>
+
+                                                                                                        </a>
+                                                                                                    </li>
+                                                                                                    <li class="collection-item avatar">
+                                                                                                        <i class="material-icons circle blue">collections_bookmark</i>
+                                                                                                        <span id="logo" class="title">Descripcion:</span>
+                                                                                                        <br>
+                                                                                                        <h5>
+                                                                                                            <%= ticket.descripcion %>
+                                                                                                        </h5>
+                                                                                                    </li>
+                                                                                                    <%if(tipo==1 || tipo == 2){ %>
+                                                                                                        <li class="collection-item avatar">
+                                                                                                            <i class="material-icons circle <%= color_prioridad %>">priority_high</i>
+                                                                                                            <span id="logo" class="title">Prioridad:</span>
+                                                                                                            <h5>
+                                                                                                                <%= prioridad %> <br> </h5>
+                                                                                                            <%if(tipo==1){ %>
+                                                                                                                <a href="/asignar_prioridad/get_tic/<%= ticket.ID_ticket %>" class="secondary-content modal-close"><i class="material-icons">create</i></a>
+                                                                                                                <% } %>
+                                                                                                        </li>
+                                                                                                        <% } %>
+                                                                                                            <%if(tipo==1){ %>
+                                                                                                                <li class="collection-item avatar">
+                                                                                                                    <i class="material-icons circle red">account_box</i>
+                                                                                                                    <span id="logo" class="title">Asignar A:</span>
+                                                                                                                    <h5> Creador:
+                                                                                                                        <%=ticket.Nombre_creador%>
+                                                                                                                            <%=ticket.apellido_P_creador%>
+                                                                                                                                <%=ticket.apellido_M_creador%>
+                                                                                                                    </h5>
+                                                                                                                    <a href="#!" class="secondary-content modal-close"><i class="material-icons">add</i></a>
+                                                                                                                </li>
+                                                                                                                <% } %>
+                                                                                                </ul>
+                                                                                                <%acumodal1=acumodal1+1%>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="card-tabs">
+                                                                                            <ul id="hola" class="tabs tabs-fixed-width">
+                                                                                                <li class="tab"><a class="active" href="#test<%= i+1%>"><i class="material-icons">assignment</i></a></li>
+                                                                                                <li class="tab "><a href="#test<%= i+2%>"><i class="material-icons">forum</i></a></li>
+                                                                                                <li class="tab"><a href="#test<%=i+3%>"><i class="material-icons">assignment_ind</i></a></li>
+                                                                                                <li class="tab "><a href="#test<%= i+4%>"><i class="material-icons">chat_bubble_outline</i></a></li>
+                                                                                            </ul>
+                                                                                        </div>
+                                                                                        <div class="card-content">
+                                                                                            <div id="test<%= i+1%>">
+                                                                                                <%= ticket.descripcion %>
+                                                                                            </div>
+                                                                                            <div id="test<%= i+2%>">
+                                                                                                <p>
+                                                                                                    <% 
+                                                    let r=1;
+                                                    var pr="";
+                                                    var rp="";
+                                                    for(let respuesta of respuestas){
+                                                        if(respuesta.ID_ticket==ticket.ID_ticket){
+                                                            pr += r;
+                                                            pr += ". ";
+                                                            pr += respuesta.texto_pregunta;
+                                                            rp += respuesta.texto_respuesta;
+                                                            r=r+1; %>
+                                                                                                        <b><%= pr%></b>
+                                                                                                        <%= rp%>
+                                                                                                            <br><br>
+                                                                                                            <%pr="";rp="";  
+                                                        }                
+                                                    }%>
+                                                                                                </p>
+                                                                                            </div>
+                                                                                            <div id="test<%= i+3%>">
+                                                                                                <p><b>Nombre del creador:</b>
+                                                                                                    <%=ticket.Nombre_creador%>
+                                                                                                        <%=ticket.apellido_P_creador%>
+                                                                                                            <%=ticket.apellido_M_creador%>
+                                                                                                </p>
+                                                                                                <p><b>Correo de creador:</b>
+                                                                                                    <%=ticket.correo_creador%>
+                                                                                                </p>
+                                                                                                <br>
+                                                                                                <p><b>Nombre del encargado:</b>
+                                                                                                    <%=ticket.Nombre_encargado%>
+                                                                                                        <%=ticket.Apellido_P_encargado%>
+                                                                                                            <%=ticket.Apellido_M_encargado%>
+                                                                                                </p>
+                                                                                                <p><b>Correo del encargado:</b>
+                                                                                                    <%=ticket.Correo_encargado%>
+                                                                                                </p>
+                                                                                            </div>
+                                                                                            <div id="test<%= i+4%>">
+                                                                                                <%= ticket.comentarios_solucion %>
+                                                                                                    <%if(tipo==1){ %>
+                                                                                                        <a class="waves-effect waves-light  btn-tiny black-text modal-trigger right" href="#agregarcomentario<%=y%>"><i class="material-icons">add_circle_outline</i></a>
+                                                                                                        <div id="agregarcomentario<%=y%>" class="modal">
+                                                                                                            <div class="modal-content">
+                                                                                                                <h4 id="logo">
+                                                                                                                    Agregar comentario?
+                                                                                                                </h4>
+                                                                                                            </div>
+                                                                                                            <%y=y+1%>
+                                                                                                                <div class="modal-footer">
+                                                                                                                    <div class="center ">
+                                                                                                                        <a id="logo" href="/mod_comentario/get_comentario/<%= ticket.ID_ticket %>" class="waves-effect waves-light btn">Aceptar</a>
+                                                                                                                        <a id="logo" href="/buscar_tickets/activos" class="waves-effect waves-light btn">Cancelar</a>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                        </div>
+                                                                                                        <% } %>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </p>
+                                                                            </div>
+                                                                        </li>
+                                                                        <% i=i+4 %>
+                                                                            <% } %>
+                                                                                <% } %>
+                                        </ul>
+                                    </div>
+
+                                </div>
+
+                                <div class="s12">
+                                    <ul class="pagination center-align">
+                                        <% for (let i = 1; i <= Math.ceil(total_tickets/5); i++) { %>
+                                            <li class="active"><a href="/buscar_tickets/start<%= tipo %>/<%= (i-1)*5 %>" "><%= i %></a></li>
+                <% } %>
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+<p></p>
+
+<script>
+    const activos = () => {
+        var str1,str2,str3, str4;
+        let bid1 = document.getElementById('buscar_id_1');
+        let bencargado1 = document.getElementById('buscar_encargado_1');
+        let bestado1 = document.getElementById('buscar_estado_1');
+        let bprioridad1 = document.getElementById('buscar_prioridad_1');
+        if (bid1 != null || bencargado1 != null || bestado1 != null || bprioridad1 != null) {
+            str1 = bid1.value;
+            str2 = bencargado1.value;
+            str3 = bestado1.value;
+            str4 = bprioridad1.value;
+        }
+        else {
+            str1 = null;
+            str2 = null;
+            str3 = null;
+            str4 = null;
+        }
+        const valor_busqueda = str1+'&'+str2+'&'+str3+'&'+str4;
+        //El token de protección CSRF
+        //const csrf = document.getElementById('_csrf').value;
+        //función que manda la petición asíncrona
+        fetch('/buscar_tickets/activos/'+ valor_busqueda, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                //'csrf-token': csrf
+            }
+            //body: JSON.stringify(data)
+        }).then(result => {
+            return result.json(); //Regresa otra promesa
+        }).then(data => {
+            //Modificamos el DOM de nuestra página de acuerdo a los datos de la segunda promesa
+            console.log(data);
+            let respuesta = '';
+            //let i=1;
+            //let rol = 1;
+            let tipo = 1;
+            respuesta += '<div class="col s12 ">'+
+                            '<div id="global1 ">'+
+                                '<blockquote>'+
+                                    '<div class="center ">'+
+                                        '<a class="btn tooltipped grey " data-position="bottom " data-tooltip="Soy un ticket Nuevo "></a>'+
+                                        '<a class="btn tooltipped light-blue " data-position="bottom " data-tooltip="Soy un ticket En Curso "></a>'+
+                                        '<a class="btn tooltipped orange " data-position="bottom " data-tooltip="Soy un ticket En Espera de Información "></a>'+
+                                        '<a class="btn tooltipped yellow light-blue " data-position="bottom " data-tooltip="Soy un ticket En Espera de Visto Bueno "></a>'+
+                                        '<a class="btn tooltipped red " data-position="bottom " data-tooltip="Soy un ticket Cancelado "></a>'+
+                                        '<a class="btn tooltipped light-green " data-position="bottom " data-tooltip="Soy un ticket Resuelto "></a>'+
+                                    '</div>'+
+                                '</blockquote>'+
+
+                                '<div class=" center ">'+
+                                    '<ul class="collection ">';
+                                        var i = 0; 
+                                        var acumodal1 = 0;
+                                        var j = 0; 
+                                        var y = 0;
+                                        var iconop = '';
+                                        for (let ticket of data.rows) { 
+                                            var color ='grey lighten-2'; 
+                                            if (ticket.ID_estado != 1){
+                                                if(ticket.ID_estado == 1){ 
+                                                    color = 'grey lighten-2'; 
+                                                } else if(ticket.ID_estado == 2){ 
+                                                    color = 'light-blue lighten-5'; 
+                                                } else if(ticket.ID_estado == 3){ 
+                                                    color = 'orange lighten-3'; 
+                                                } else if(ticket.ID_estado == 4){ 
+                                                    color = 'yellow light-blue lighten-5'; 
+                                                } else if(ticket.ID_estado == 5){ 
+                                                    color = 'red lighten-4'; 
+                                                } else if(ticket.ID_estado == 6){ 
+                                                    color = 'light-green accent-1'; } 
+                                                var prioridad = '';
+                                                var color_prioridad = ''
+                                                if(ticket.ID_prioridad == 1){
+                                                    prioridad = 'Por Asignar'
+                                                    color_prioridad = 'grey lighten-1'
+                                                    iconop = 'filter_1'
+                                                }
+                                                if(ticket.ID_prioridad == 2){
+                                                    prioridad = 'Baja'
+                                                    color_prioridad ='teal lighten-3'
+                                                    iconop = 'filter_2'
+                                                }
+                                                if(ticket.ID_prioridad == 3){
+                                                    prioridad = 'Media'
+                                                    color_prioridad ='yellow accent-1'
+                                                    iconop = 'looks_3'
+                                                }
+                                                if(ticket.ID_prioridad == 4){
+                                                    prioridad = 'Alta'
+                                                    color_prioridad ='orange lighten-2'
+                                                    iconop = 'looks_4'
+                                                }
+                                                if(ticket.ID_prioridad == 5){
+                                                    prioridad = 'Urgente'
+                                                    color_prioridad ='red lighten-1'
+                                                    iconop = 'looks_5'
+                                                } 
+                                                respuesta += '<li class="collection-item grey ">'+
+                                                    '<div class="col s12 ">'+
+                                                        '<p class="z-depth-4 ">'+
+                                                            '<div id="carta " class="card ">'+
+                                                                '<div class="card-content '+color+' ">'+
+                                                                    '<p id="titulo ">'+
+                                                                    '<b>'+ticket.ID_ticket + ": " + ticket.titulo +'</b>'+
+                                                                    '<i class="material-icons left "> '+iconop+' </i>'+
+                                                                    '<a class="waves-effect waves-light btn-small grey modal-trigger pulse right " href="#modala '+acumodal1+' "><i class="material-icons ">edit</i></a>'+
+                                                                    '</p>'+
+                                                                '</div>'+
+                                                                '<div id="modala '+acumodal1+' " class="modal ">'+
+                                                                    '<div class="modal-content ">'+
+                                                                        '<ul class="collection ">'+
+                                                                            '<li class="collection-item avatar ">'+
+                                                                                '<i class="material-icons circle green ">folder</i>'+
+                                                                                '<span class="title ">'+
+                                                                                    'Titulo'+
+                                                                                '</span>'+
+                                                                                '<h5>'+ticket.titulo+'</h5>';
+                                                                                '<a href="#! " class="secondary-content ">';
+
+                                                                                    if(([<%=rol%>] != 3 || tipo == 3) && ticket.ID_estado != 5 && ticket.ID_estado !=6 ){
+                                                                                        var ruta='';
+                                                                                        if(tipo==3){
+                                                                                            ruta='propio';
+                                                                                        }
+                                                                                        else if(tipo==2){
+                                                                                            ruta='archivo';
+                                                                                        }
+                                                                                        else if(tipo==1){
+                                                                                            ruta='activos';
+                                                                                        }
+
+                                                                                    respuesta += '<form action="/buscar_tickets/ '+ruta+' " method="POST ">'+
+                                                                                        '<input for="idticket " id="idticket " name="idticket " type="hidden " value=" '+ticket.ID_ticket+' " />'+
+                                                                                        '<button class="btn tooltipped modal-close waves-effect waves-red btn-flat btn-small " data-position="bottom " data-tooltip="Eliminar Ticket " type="submit
+                                                    " name="action "><i class="material-icons ">delete</i></button>'+
+                                                                                    '</form>';
+
+                                                                                    }
+
+                                                                                respuesta += '</a>'+
+                                                                            '</li>'+
+                                                                            '<li class="collection-item avatar ">'+
+                                                                                '<i class="material-icons circle blue ">collections_bookmark</i>'+
+                                                                                '<span class="title ">Descripcion:</span>'+
+                                                                                '<br>'+ ticket.descripcion + '</h5>'+
+                                                                            '</li>'+
+                                                                            '<li class="collection-item avatar ">'+
+                                                                                '<i class="material-icons circle ' + color_prioridad +' ">priority_high</i>'+
+                                                                                '<span class="title ">Prioridad:</span>'+
+                                                                                '<h5>'+prioridad +'<br> </h5>'+
+                                                                                '<a href="/asignar_prioridad/get_tic/ '+ ticket.ID_ticket +' " class="secondary-content modal-close "><i class="material-icons ">create</i></a>'+
+                                                                            '</li>'+
+                                                                            '<li class="collection-item avatar ">'+
+                                                                                '<i class="material-icons circle red ">account_box</i>'+
+                                                                                '<span class="title ">Asignar A:</span>'+
+                                                                                '<h5> Creador: '+ticket.Nombre_creador+' '+ticket.apellido_P_creador+' '+ticket.Apellido_M_creador+'</h5>'+
+                                                                                '<a href="#! " class="secondary-content modal-close "><i class="material-icons ">add</i></a>'+
+                                                                            '</li>'+
+                                                                        '</ul>';
+                                                                        acumodal1=acumodal1+1;
+                                                                    respuesta += '</div>'+
+                                                                '</div>'+
+                                                                '<div class="card-tabs ">'+
+                                                                    '<ul id="hola " class="tabs tabs-fixed-width ">'+
+                                                                        '<li class="tab "><a class="active " href="#test '+(i+1)+' "><i class="material-icons ">assignment</i></a></li>'+
+                                                                        '<li class="tab "><a href="#test '+ (i+2)+' "><i class="material-icons ">forum</i></a></li>'+
+                                                                        '<li class="tab "><a href="#test '+(i+3)+' "><i class="material-icons ">assignment_ind</i></a></li>'+
+                                                                        '<li class="tab "><a href="#test '+(i+4)+' "><i class="material-icons ">chat_bubble_outline</i></a></li>'+
+                                                                    '</ul>'+
+                                                                '</div>'+
+                                                                '<div class="card-content ">'+
+                                                                    '<div id="test '+ (i+1)+' ">'+ticket.descripcion +'</div>'+
+                                                                    '<div id="test '+ (i+2)+' ">'+
+                                                                        '<p>'; 
+                                                                        let r=1;
+                                                                        var pr=" ";
+                                                                        var rp=" ";
+                                                                        for(let res of ticket.respuestas[0]){
+                                                                            if(res.ID_ticket==ticket.ID_ticket){
+                                                                                pr += r;
+                                                                                pr += ". ";
+                                                                                pr += res.texto_pregunta;
+                                                                                rp += res.texto_respuesta;
+                                                                                r=r+1;
+                                                                                respuesta += '<b>'+pr+'</b>'+ ' ' +
+                                                                                rp+
+                                                                                '<br><br>';
+                                                                                pr=" ";rp=" ";  
+                                                                            }                
+                                                                        }
+                                                                        respuesta += '</p>'+
+                                                                    '</div>'+
+                                                                    '<div id="test '+(i+3)+' ">'+
+                                                                        '<p><b>Nombre del creador: </b>'+ticket.Nombre_creador+' '+ticket.apellido_P_creador+' '+ticket.Apellido_M_creador+'</p>'+
+                                                                        '<p><b>Correo de creador: </b> '+ticket.correo_creador+'</p>'+
+                                                                        '<br>'+
+                                                                        '<p><b>Nombre del encargado: </b>' +ticket.Nombre_encargado+' '+ticket.Apellido_P_encargado+' '+ticket.Apellido_M_encargado+'</p>'+
+                                                                        '<p><b>Correo del encargado: </b>' +ticket.Correo_encargado+'</p>'+
+                                                                    '</div>'+
+                                                                    '<div id="test '+(i+4)+' ">'+
+                                                                        ticket.comentarios_solucion +
+                                                                        '<a class="waves-effect waves-light btn-tiny black-text modal-trigger right " href="#agregarcomentario '+y+' "><i class="material-icons ">add_circle_outline</i></a>'+
+                                                                        '<div id="agregarcomentario '+y+' " class="modal ">'+
+                                                                            '<div class="modal-content ">'+
+                                                                                '<h4>Agregar comentario?</h4>'+
+                                                                            '</div>';
+                                                                            y=y+1
+                                                                            respuesta += '<div class="modal-footer ">'+
+                                                                                '<div class="center ">'+
+                                                                                    '<a href="/mod_comentario/get_comentario/ '+ticket.ID_ticket+' " class="waves-effect waves-light btn ">Aceptar</a>'+
+                                                                                    '<a href="/buscar_tickets/activos " class="waves-effect waves-light btn ">Cancelar</a>'+
+                                                                                '</div>'+
+                                                                            '</div>'+
+                                                                        '</div>'+
+                                                                    '</div>'+
+                                                                '</div>'+
+                                                            '</div>'+
+                                                        '</p>'+
+                                                    '</div>'+
+                                                '</li>';
+                                                i=i+4
+                                            }
+                                        }
+                                    respuesta += '</ul>'+
+                                '</div>'+
+                            
+                            '</div>'+ 
+
+                            '<div class="s12 ">'+
+                                '<ul class="pagination center-align ">';
+                                    for (let x = 1; x <= Math.ceil(data.rows.length/5); x++) {
+                                        respuesta += '<li class="active "><a href="/buscar_tickets/start '+tipo+'/ '+(x-1)*5 +' "">'+x+'</a>
+                                            </li>'; } respuesta += '</ul>'+ '
+                                </div>'+ '
+
+                            </div>'; document.getElementById('respuesta_ajax').innerHTML = respuesta; M.AutoInit(); }).catch(err => { console.log('Error de ajax'); console.log(err); }); }; //Implementción de los filtros dentro de la busqueda de tickets
+                            activos. let bid1 = document.getElementById('buscar_id_1'); let bencargado1 = document.getElementById('buscar_encargado_1'); let bestado1 = document.getElementById('buscar_estado_1'); let bprioridad1 = document.getElementById('buscar_prioridad_1');
+                            if (bid1 != null || bencargado1 != null || bestado1 != null || bprioridad1 != null) { document.getElementById('buscar_id_1').onkeyup = activos; document.getElementById('buscar_encargado_1').onkeyup = activos; document.getElementById('buscar_estado_1').onkeyup
+                            = activos; document.getElementById('buscar_prioridad_1').onkeyup = activos; } const archivados = () => { var str1,str2,str3, str4; let bc2 = document.getElementById('buscar_creador_2'); let be2 = document.getElementById('buscar_encargado_2');
+                            let bid2 = document.getElementById('buscar_id_2'); let bpri2 = document.getElementById('buscar_prioridad_2'); if (bc2 != null || be2 != null || bid2 != null || bpri2 != null) { str1 = bc2.value; str2 = be2.value; str3 = bid2.value;
+                            str4 = bpri2.value; } else { str1 = null; str2 = null; str3 = null; str4 = null; } const valor_busqueda = str1+'&'+str2+'&'+str3+'&'+str4; //El token de protección CSRF //const csrf = document.getElementById('_csrf').value;
+                            //función que manda la petición asíncrona fetch('/buscar_tickets/archivo/'+ valor_busqueda, { method: 'GET', headers: { 'Content-Type': 'application/json', //'csrf-token': csrf } //body: JSON.stringify(data) }).then(result
+                            => { return result.json(); //Regresa otra promesa }).then(data => { //Modificamos el DOM de nuestra página de acuerdo a los datos de la segunda promesa console.log(data); let respuesta = ''; //let i=1; //let rol = 1; let tipo
+                            = 2; respuesta += '
+                            <div class="col s12">'+ '
+                                <div id="global1">'+ '
+                                    <blockquote>'+ '
+                                        <div class="center">'+ '
+                                            <a class="btn tooltipped grey" data-position="bottom" data-tooltip="Soy un ticket Nuevo"></a>'+ '
+                                            <a class="btn tooltipped light-blue" data-position="bottom" data-tooltip="Soy un ticket En Curso"></a>'+ '
+                                            <a class="btn tooltipped orange" data-position="bottom" data-tooltip="Soy un ticket En Espera de Información"></a>'+ '
+                                            <a class="btn tooltipped yellow light-blue" data-position="bottom" data-tooltip="Soy un ticket En Espera de Visto Bueno"></a>'+ '
+                                            <a class="btn tooltipped red" data-position="bottom" data-tooltip="Soy un ticket Cancelado"></a>'+ '
+                                            <a class="btn tooltipped light-green" data-position="bottom" data-tooltip="Soy un ticket Resuelto"></a>'+ '
+                                        </div>'+ '
+                                    </blockquote>'+ '
+
+                                    <div class=" center">'+ '
+                                        <ul class="collection">'; var i = 0; var acumodal1 = 0; var j = 0; var y = 0; var iconop = ''; for (let ticket of data.rows) { var color ='grey lighten-2'; if (ticket.ID_estado != 1){ if(ticket.ID_estado == 1){ color = 'grey lighten-2';
+                                            } else if(ticket.ID_estado == 2){ color = 'light-blue lighten-5'; } else if(ticket.ID_estado == 3){ color = 'orange lighten-3'; } else if(ticket.ID_estado == 4){ color = 'yellow light-blue lighten-5'; } else
+                                            if(ticket.ID_estado == 5){ color = 'red lighten-4'; } else if(ticket.ID_estado == 6){ color = 'light-green accent-1'; } var prioridad = ''; var color_prioridad = '' if(ticket.ID_prioridad == 1){ prioridad =
+                                            'Por Asignar' color_prioridad = 'grey lighten-1' iconop = 'filter_1' } if(ticket.ID_prioridad == 2){ prioridad = 'Baja' color_prioridad ='teal lighten-3' iconop = 'filter_2' } if(ticket.ID_prioridad == 3){ prioridad
+                                            = 'Media' color_prioridad ='yellow accent-1' iconop = 'looks_3' } if(ticket.ID_prioridad == 4){ prioridad = 'Alta' color_prioridad ='orange lighten-2' iconop = 'looks_4' } if(ticket.ID_prioridad == 5){ prioridad
+                                            = 'Urgente' color_prioridad ='red lighten-1' iconop = 'looks_5' } respuesta += '
+                                            <li class="collection-item grey">'+ '
+                                                <div class="col s12 ">'+ '
+                                                    <p class="z-depth-4">'+ '
+                                                        <div id="carta" class="card">'+ '
+                                                            <div class="card-content '+color+' ">'+ '
+                                                                <p id="titulo">'+ '
+                                                                    <b>'+ticket.ID_ticket + ": " + ticket.titulo +'</b>'+ '
+                                                                    <i class="material-icons left"> '+iconop+' </i>'+ '
+                                                                    <a class="waves-effect waves-light  btn-small grey modal-trigger pulse right" href="#modala'+acumodal1+'"><i class="material-icons">edit</i></a>'+ '
+                                                                </p>'+ '
+                                                            </div>'+ '
+                                                            <div id="modala'+acumodal1+'" class="modal">'+ '
+                                                                <div class="modal-content">'+ '
+                                                                    <ul class="collection">'+ '
+                                                                        <li class="collection-item avatar">'+ '
+                                                                            <i class="material-icons circle green">folder</i>'+ '
+                                                                            <span class="title">'+
+                                                                                    'Titulo'+
+                                                                                '</span>'+ '
+                                                                            <h5>'+ticket.titulo+'</h5>'; '
+                                                                            <a href="#!" class="secondary-content">';
+
+                                                                                    if(([<%=rol%>] != 3 || tipo == 3) && ticket.ID_estado != 5 && ticket.ID_estado !=6 ){
+                                                                                        var ruta='';
+                                                                                        if(tipo==3){
+                                                                                            ruta='propio';
+                                                                                        }
+                                                                                        else if(tipo==2){
+                                                                                            ruta='archivo';
+                                                                                        }
+                                                                                        else if(tipo==1){
+                                                                                            ruta='activos';
+                                                                                        }
+
+                                                                                    respuesta += '<form action="/buscar_tickets/'+ruta+'" method="POST">'+
+                                                                                        '<input for="idticket" id="idticket" name="idticket" type="hidden" value="'+ticket.ID_ticket+'" />'+
+                                                                                        '<button class="btn tooltipped modal-close waves-effect waves-red btn-flat btn-small" data-position="bottom" data-tooltip="Eliminar Ticket" type="submit" name="action"><i class="material-icons">delete</i></button>'+
+                                                                                    '</form>';
+
+                                                                                    }
+
+                                                                                respuesta += '</a>'+ '
+                                                                        </li>'+ '
+                                                                        <li class="collection-item avatar">'+ '
+                                                                            <i class="material-icons circle blue">collections_bookmark</i>'+ '
+                                                                            <span class="title">Descripcion:</span>'+ '
+                                                                            <br>'+ ticket.descripcion + '</h5>'+ '
+                                                                        </li>'+ '
+                                                                        <li class="collection-item avatar">'+ '
+                                                                            <i class="material-icons circle' + color_prioridad +'">priority_high</i>'+ '
+                                                                            <span class="title">Prioridad:</span>'+ '
+                                                                            <h5>'+prioridad +'<br> </h5>'+ '
+                                                                        </li>'+ '
+                                                                        <li class="collection-item avatar">'+ '
+                                                                            <i class="material-icons circle red">account_box</i>'+ '
+                                                                            <span class="title">Asignar A:</span>'+ '
+                                                                            <h5> Creador: '+ticket.Nombre_creador+' '+ticket.apellido_P_creador+' '+ticket.Apellido_M_creador+'</h5>'+ '
+                                                                        </li>'+ '
+                                                                    </ul>'; acumodal1=acumodal1+1; respuesta += '</div>'+ '
+                                                            </div>'+ '
+                                                            <div class="card-tabs">'+ '
+                                                                <ul id="hola" class="tabs tabs-fixed-width">'+ '
+                                                                    <li class="tab"><a class="active" href="#test'+(i+1)+'"><i class="material-icons">assignment</i></a></li>'+ '
+                                                                    <li class="tab "><a href="#test'+ (i+2)+'"><i class="material-icons">forum</i></a></li>'+ '
+                                                                    <li class="tab"><a href="#test'+(i+3)+'"><i class="material-icons">assignment_ind</i></a></li>'+ '
+                                                                    <li class="tab "><a href="#test'+(i+4)+'"><i class="material-icons">chat_bubble_outline</i></a></li>'+ '
+                                                                </ul>'+ '
+                                                            </div>'+ '
+                                                            <div class="card-content">'+ '
+                                                                <div id="test'+ (i+1)+'">'+ticket.descripcion +'</div>'+ '
+                                                                <div id="test'+ (i+2)+'">'+ '
+                                                                    <p>'; let r=1; var pr=""; var rp=""; for(let res of ticket.respuestas[0]){ if(res.ID_ticket==ticket.ID_ticket){ pr += r; pr += ". "; pr += res.texto_pregunta; rp += res.texto_respuesta;
+                                                                        r=r+1; respuesta += '<b>'+pr+'</b>'+ ' ' + rp+ '
+                                                                        <br><br>'; pr="";rp=""; } } respuesta += '</p>'+ '
+                                                                </div>'+ '
+                                                                <div id="test'+(i+3)+'">'+ '
+                                                                    <p><b>Nombre del creador: </b>'+ticket.Nombre_creador+' '+ticket.apellido_P_creador+' '+ticket.Apellido_M_creador+'</p>'+ '
+                                                                    <p><b>Correo de creador: </b> '+ticket.correo_creador+'</p>'+ '
+                                                                    <br>'+ '
+                                                                    <p><b>Nombre del encargado: </b>' +ticket.Nombre_encargado+' '+ticket.Apellido_P_encargado+' '+ticket.Apellido_M_encargado+'</p>'+ '
+                                                                    <p><b>Correo del encargado: </b>' +ticket.Correo_encargado+'</p>'+ '
+                                                                </div>'+ '
+                                                                <div id="test'+(i+4)+'">'+ ticket.comentarios_solucion + '
+                                                                </div>'+ '
+                                                            </div>'+ '
+                                                        </div>'+ '
+                                                    </p>'+ '
+                                                </div>'+ '
+                                            </li>'; i=i+4 } } respuesta += '</ul>'+ '
+                                    </div>'+ '
+
+                                </div>'+ '
+
+                                <div class="s12">'+ '
+                                    <ul class="pagination center-align">'; for (let x = 1; x
+                                        <=M ath.ceil(data.rows.length/5); x++) { respuesta +='<li class="active"><a href="/buscar_tickets/start' +tipo+ '/'+(x-1)*5 + '"">'+x+ '</a></li>'; } respuesta +='</ul>' + '</div>'+ '</div>'; document.getElementById( 'respuesta_ajax').innerHTML=r espuesta;
+                                            M.AutoInit(); }).catch(err=> { console.log('Error de ajax'); console.log(err); }); }; //Implementción de los filtros dentro de la busqueda de tickets activos. let bc2 = document.getElementById('buscar_creador_2'); let be2 = document.getElementById('buscar_encargado_2');
+                                            let bid2 = document.getElementById('buscar_id_2'); let bpri2 = document.getElementById('buscar_prioridad_2'); if (bc2 != null || be2 != null || bid2 != null) { document.getElementById('buscar_creador_2').onkeyup
+                                            = archivados; document.getElementById('buscar_encargado_2').onkeyup = archivados; document.getElementById('buscar_id_2').onkeyup = archivados; document.getElementById('buscar_prioridad_2').onkeyup = archivados;
+                                            } const propios = () => { var str1; let bid3 = document.getElementById('buscar_id_3'); if (bid3 != null) { str1 = bid3.value; } else { str1 = null; } const valor_busqueda = str1; //El token de protección CSRF
+                                            //const csrf = document.getElementById('_csrf').value; //función que manda la petición asíncrona fetch('/buscar_tickets/propio/'+ valor_busqueda, { method: 'GET', headers: { 'Content-Type': 'application/json',
+                                            //'csrf-token': csrf } //body: JSON.stringify(data) }).then(result => { return result.json(); //Regresa otra promesa }).then(data => { //Modificamos el DOM de nuestra página de acuerdo a los datos de la segunda
+                                            promesa console.log(data); let respuesta = ''; //let i=1; //let rol = 1; let tipo = 3; respuesta += '
+                                            <div class="col s12">'+ '
+                                                <div id="global1">'+ '
+                                                    <blockquote>'+ '
+                                                        <div class="center">'+ '
+                                                            <a class="btn tooltipped grey" data-position="bottom" data-tooltip="Soy un ticket Nuevo"></a>'+ '
+                                                            <a class="btn tooltipped light-blue" data-position="bottom" data-tooltip="Soy un ticket En Curso"></a>'+ '
+                                                            <a class="btn tooltipped orange" data-position="bottom" data-tooltip="Soy un ticket En Espera de Información"></a>'+ '
+                                                            <a class="btn tooltipped yellow light-blue" data-position="bottom" data-tooltip="Soy un ticket En Espera de Visto Bueno"></a>'+ '
+                                                            <a class="btn tooltipped red" data-position="bottom" data-tooltip="Soy un ticket Cancelado"></a>'+ '
+                                                            <a class="btn tooltipped light-green" data-position="bottom" data-tooltip="Soy un ticket Resuelto"></a>'+ '
+                                                        </div>'+ '
+                                                    </blockquote>'+ '
+
+                                                    <div class=" center">'+ '
+                                                        <ul class="collection">'; var i = 0; var acumodal1 = 0; var j = 0; var y = 0; var iconop = ''; for (let ticket of data.rows) { var color ='grey lighten-2'; if (ticket.ID_estado != 1){ if(ticket.ID_estado == 1){ color =
+                                                            'grey lighten-2'; } else if(ticket.ID_estado == 2){ color = 'light-blue lighten-5'; } else if(ticket.ID_estado == 3){ color = 'orange lighten-3'; } else if(ticket.ID_estado == 4){ color = 'yellow
+                                                            light-blue lighten-5'; } else if(ticket.ID_estado == 5){ color = 'red lighten-4'; } else if(ticket.ID_estado == 6){ color = 'light-green accent-1'; } var prioridad = ''; var color_prioridad =
+                                                            '' if(ticket.ID_prioridad == 1){ prioridad = 'Por Asignar' color_prioridad = 'grey lighten-1' iconop = 'filter_1' } if(ticket.ID_prioridad == 2){ prioridad = 'Baja' color_prioridad ='teal lighten-3'
+                                                            iconop = 'filter_2' } if(ticket.ID_prioridad == 3){ prioridad = 'Media' color_prioridad ='yellow accent-1' iconop = 'looks_3' } if(ticket.ID_prioridad == 4){ prioridad = 'Alta' color_prioridad
+                                                            ='orange lighten-2' iconop = 'looks_4' } if(ticket.ID_prioridad == 5){ prioridad = 'Urgente' color_prioridad ='red lighten-1' iconop = 'looks_5' } respuesta += '
+                                                            <li class="collection-item grey">'+ '
+                                                                <div class="col s12 ">'+ '
+                                                                    <p class="z-depth-4">'+ '
+                                                                        <div id="carta" class="card">'+ '
+                                                                            <div class="card-content '+color+' ">'+ '
+                                                                                <p id="titulo">'+ '
+                                                                                    <b>'+ticket.ID_ticket + ": " + ticket.titulo +'</b>'+ '
+                                                                                    <i class="material-icons left"> '+iconop+' </i>'+ '
+                                                                                    <a class="waves-effect waves-light  btn-small grey modal-trigger pulse right" href="#modala'+acumodal1+'"><i class="material-icons">edit</i></a>'+ '
+                                                                                </p>'+ '
+                                                                            </div>'+ '
+                                                                            <div id="modala'+acumodal1+'" class="modal">'+ '
+                                                                                <div class="modal-content">'+ '
+                                                                                    <ul class="collection">'+ '
+                                                                                        <li class="collection-item avatar">'+ '
+                                                                                            <i class="material-icons circle green">folder</i>'+ '
+                                                                                            <span class="title">'+
+                                                                                    'Titulo'+
+                                                                                '</span>'+ '
+                                                                                            <h5>'+ticket.titulo+'</h5>'; '
+                                                                                            <a href="#!" class="secondary-content">';
+                                                                                respuesta += '</a>'+ '
+                                                                                        </li>'+ '
+                                                                                        <li class="collection-item avatar">'+ '
+                                                                                            <i class="material-icons circle blue">collections_bookmark</i>'+ '
+                                                                                            <span class="title">Descripcion:</span>'+ '
+                                                                                            <br>'+ ticket.descripcion + '</h5>'+ '
+                                                                                        </li>'+ '
+                                                                                        <li class="collection-item avatar">'+ '
+                                                                                            <i class="material-icons circle red">account_box</i>'+ '
+                                                                                            <h5> Creador: '+ticket.Nombre_creador+' '+ticket.apellido_P_creador+' '+ticket.Apellido_M_creador+'</h5>'+ '
+                                                                                        </li>'+ '
+                                                                                    </ul>'; acumodal1=acumodal1+1; respuesta += '</div>'+ '
+                                                                            </div>'+ '
+                                                                            <div class="card-tabs">'+ '
+                                                                                <ul id="hola" class="tabs tabs-fixed-width">'+ '
+                                                                                    <li class="tab"><a class="active" href="#test'+(i+1)+'"><i class="material-icons">assignment</i></a></li>'+ '
+                                                                                    <li class="tab "><a href="#test'+ (i+2)+'"><i class="material-icons">forum</i></a></li>'+ '
+                                                                                    <li class="tab"><a href="#test'+(i+3)+'"><i class="material-icons">assignment_ind</i></a></li>'+ '
+                                                                                    <li class="tab "><a href="#test'+(i+4)+'"><i class="material-icons">chat_bubble_outline</i></a></li>'+ '
+                                                                                </ul>'+ '
+                                                                            </div>'+ '
+                                                                            <div class="card-content">'+ '
+                                                                                <div id="test'+ (i+1)+'">'+ticket.descripcion +'</div>'+ '
+                                                                                <div id="test'+ (i+2)+'">'+ '
+                                                                                    <p>'; let r=1; var pr=""; var rp=""; for(let res of ticket.respuestas[0]){ if(res.ID_ticket==ticket.ID_ticket){ pr += r; pr += ". "; pr += res.texto_pregunta; rp += res.texto_respuesta;
+                                                                                        r=r+1; respuesta += '<b>'+pr+'</b>'+ ' ' + rp+ '
+                                                                                        <br><br>'; pr="";rp=""; } } respuesta += '</p>'+ '
+                                                                                </div>'+ '
+                                                                                <div id="test'+(i+3)+'">'+ '
+                                                                                    <p><b>Nombre del creador: </b>'+ticket.Nombre_creador+' '+ticket.apellido_P_creador+' '+ticket.Apellido_M_creador+'</p>'+ '
+                                                                                    <p><b>Correo de creador: </b> '+ticket.correo_creador+'</p>'+ '
+                                                                                    <br>'+ '
+                                                                                    <p><b>Nombre del encargado: </b>' +ticket.Nombre_encargado+' '+ticket.Apellido_P_encargado+' '+ticket.Apellido_M_encargado+'</p>'+ '
+                                                                                    <p><b>Correo del encargado: </b>' +ticket.Correo_encargado+'</p>'+ '
+                                                                                </div>'+ '
+                                                                                <div id="test'+(i+4)+'">'+ ticket.comentarios_solucion + '
+                                                                                </div>'+ '
+                                                                            </div>'+ '
+                                                                        </div>'+ '
+                                                                    </p>'+ '
+                                                                </div>'+ '
+                                                            </li>'; i=i+4 } } respuesta += '</ul>'+ '
+                                                    </div>'+ '
+
+                                                </div>'+ '
+
+                                                <div class="s12">'+ '
+                                                    <ul class="pagination center-align">'; for (let x = 1; x
+                                                        <=M ath.ceil(data.rows.length/5); x++) { respuesta +='<li class="active"><a href="/buscar_tickets/start' +tipo+ '/'+(x-1)*5 + '"">'+x+ '</a></li>'; } respuesta +='</ul>' + '</div>'+ '</div>'; document.getElementById( 'respuesta_ajax').innerHTML=r espuesta;
+                                                            M.AutoInit(); }).catch(err=> { console.log('Error de ajax'); console.log(err); }); }; let bid3 = document.getElementById('buscar_id_3'); if (bid3 != null) { document.getElementById('buscar_id_3').onkeyup = propios; }
+                                                            </script>
+
+                                                            <%- include('includes/footer.ejs') %>

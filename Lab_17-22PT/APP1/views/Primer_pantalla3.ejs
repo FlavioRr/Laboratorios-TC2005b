@@ -1,0 +1,234 @@
+<%- include('includes/head.ejs') %>
+    <!DOCTYPE html>
+    <html>
+    <!-- https://zebrands.mx/wp-content/uploads/2021/07/zebrands.jpg -->
+
+    <head>
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+
+    <body>
+        <style type="text/css">
+            #hola::-webkit-scrollbar {
+                display: none;
+            }
+            
+            #global {
+                height: 1000px;
+                border: 1px solid #ddd;
+                background: grey;
+                border-radius: 5%;
+                overflow-y: scroll;
+                flex-wrap: wrap;
+            }
+            
+            #global1 {
+                height: 500px;
+                border: 1px solid #ddd;
+                background: grey;
+                border-radius: 5%;
+                overflow-y: scroll;
+                flex-wrap: wrap;
+            }
+            
+            #global::-webkit-scrollbar {
+                display: none;
+            }
+            
+            #global1::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .modal-footer::-webkit-scrollbar {
+                display: none;
+            }
+            
+            #carrusel {
+                background-color: #ddd;
+            }
+            
+            #carta {
+                border-radius: 5%;
+            }
+            
+            #tamanio {
+                font-size: xx-large;
+                background-color: grey;
+                font-family: 'Courier New', Courier, monospace;
+            }
+        </style>
+
+
+        <div class="row">
+            <div class="col s12">
+                <div class="center">
+                    <a id="logo" id="tamanio" href="/generar_ticket/enviar_ticket" class="center waves-effect waves-green btn-flat">Registrar Ticket</a>
+                </div>
+            </div>
+            <p></p>
+
+            <div class="col s12">
+                <p></p>
+            </div>
+            <div class="col s12">
+                <div id="global1">
+                    <blockquote>
+                        <div class="center">
+                            <h5 id="logo">Mis Tickets</h5>
+                            <a class="btn tooltipped grey" data-position="bottom" data-tooltip="Soy un ticket Nuevo!"></a>
+                            <a class="btn tooltipped light-blue" data-position="bottom" data-tooltip="Soy un ticket En Curso!"></a>
+                            <a class="btn tooltipped orange" data-position="bottom" data-tooltip="Soy un ticket En Espera!"></a>
+                            <a class="btn tooltipped yellow light-blue" data-position="bottom" data-tooltip="Soy un ticket En Espera!"></a>
+                            <a class="btn tooltipped red" data-position="bottom" data-tooltip="Soy un ticket Cancelado!"></a>
+                            <a class="btn tooltipped light-green" data-position="bottom" data-tooltip="Soy un ticket Resuelto!"></a>
+                        </div>
+                    </blockquote>
+                    <div class=" center">
+                        <ul class="collection">
+                            <% var z = 0; %>
+                                <% var y = 0; %>
+                                    <% var j = 0; %>
+                                        <% for (let ticket2 of ticketsusuario) { %>
+                                            <%var color =''; 
+                                        if(ticket2.ID_estado == 1){ 
+                                            color = 'grey lighten-2'; 
+                                        } else if(ticket2.ID_estado == 2){ 
+                                            color = 'light-blue lighten-5'; 
+                                        } else if(ticket2.ID_estado == 3){ 
+                                            color = 'orange lighten-5'; 
+                                        } else if(ticket2.ID_estado == 4){ 
+                                            color = 'yellow light-blue lighten-5'; 
+                                        } else if(ticket2.ID_estado == 5){ 
+                                            color = 'red lighten-1'; 
+                                        } else if(ticket2.ID_estado == 6){ 
+                                            color = 'light-green accent-1'; } %>
+                                                <li class="collection-item grey">
+                                                    <div class="col s12">
+                                                        <p class="z-depth-4">
+                                                            <div class="card">
+                                                                <div class="card-content <%=color%>">
+                                                                    <p id="titulo">
+                                                                        <b id="logo"><%= ticket2.ID_ticket + ": " + ticket2.titulo %></b>
+
+                                                                        <a class="waves-effect waves-light  btn-small grey lighten modal-trigger pulse right" href="#modal1<%=j%>"><i class="material-icons">edit</i></a>
+                                                                    </p>
+                                                                </div>
+                                                                <div id="modal1<%=j%>" class="modal">
+                                                                    <div class="modal-content">
+                                                                        <h4>
+                                                                            <%= ticket2.titulo %>
+                                                                        </h4>
+                                                                        <p>
+                                                                            <%= ticket2.descripcion %>
+                                                                        </p>
+                                                                    </div>
+                                                                    <%j=j+1%>
+                                                                        <div class="modal-footer">
+                                                                            <a href="#!" class="modal-close waves-effect waves-green btn-flat">
+                                                                                <form action="/home" method="POST">
+                                                                                    <input for="idticket" id="idticket" name="idticket" type="hidden" value="<%=ticket2.ID_ticket%>" />
+                                                                                    <button class="modal-close waves-effect waves-green btn-flat" type="submit" name="action">Cancelar ticket
+                                                                                </button>
+                                                                                </form>
+                                                                            </a>
+
+                                                                            <a href="#!" class="modal-close waves-effect waves-green btn-flat pulse">Asignar prioridad</a>
+
+
+                                                                        </div>
+                                                                </div>
+                                                                <div class="card-tabs">
+                                                                    <ul id="hola" class="tabs tabs-fixed-width">
+                                                                        <li class="tab"><a class="active" href="#tests<%= z+1%>"><i class="material-icons">assignment</i></a></li>
+                                                                        <li class="tab"><a href="#tests<%= z+2%>"><i class="material-icons">forum</i></a></li>
+                                                                        <li class="tab"><a href="#tests<%= z+3%>"><i class="material-icons">assignment_ind
+                                                                    </i></a></li>
+                                                                        <li class="tab"><a href="#tests<%= z+4%>"><i class="material-icons">chat_bubble_outline</i></a></li>
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="card-content ">
+                                                                    <div id="tests<%= z+1%>">
+                                                                        <%= ticket2.descripcion %>
+                                                                    </div>
+                                                                    <div id="tests<%=z+2%>">
+                                                                        <p>
+                                                                            <% 
+                                                                            let r=1;
+                                                                            var pr="";
+                                                                            var rp="";
+                                                                            for(let respuesta of respuestas){
+                                                                                if(respuesta.ID_ticket==ticket2.ID_ticket){
+                                                                                    pr += r;
+                                                                                    pr += ". ";
+                                                                                    pr += respuesta.texto_pregunta;
+                                                                                    rp += respuesta.texto_respuesta;
+                                                                                    r=r+1; %>
+                                                                                <b><%= pr%></b>
+                                                                                <%= rp%>
+                                                                                    <br><br>
+                                                                                    <%pr="";rp="";  
+                                                                                }
+                                                                            
+                                                                            }%>
+
+                                                                        </p>
+                                                                    </div>
+                                                                    <div id="tests<%= z+3%>">
+                                                                        <p><b>Nombre del Creador:</b>
+                                                                            <%=ticket2.Nombre_creador%>
+                                                                                <%=ticket2.apellido_P_creador%>
+                                                                                    <%=ticket2.Apellido_M_creador%>
+                                                                        </p>
+                                                                        <p><b>Nombre del Encargado:</b>
+                                                                            <%=ticket2.Nombre_encargado%>
+                                                                                <%=ticket2.Apellido_P_encargado%>
+                                                                                    <%=ticket2.Apellido_M_encargado%>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div id="tests<%= z+4%>">
+                                                                        <%= ticket2.comentarios_solucion %>
+                                                                            <a class="waves-effect waves-light  btn-tiny black-text modal-trigger right" href="#agregarcomentario<%=y%>"><i class="material-icons">add_circle_outline</i></a>
+                                                                            <div id="agregarcomentario<%=y%>" class="modal">
+                                                                                <div class="modal-content">
+                                                                                    <h4>
+                                                                                        Agregar comentario?
+                                                                                    </h4>
+                                                                                    <p>
+                                                                                        <div class="input-field">
+                                                                                            <input placeholder="Escribe tu comentario" id="first_name" type="text" class="validate">
+                                                                                            <label for="first_name">Comentario</label>
+                                                                                        </div>
+                                                                                    </p>
+                                                                                </div>
+                                                                                <%y=y+1%>
+                                                                                    <div class="modal-footer">
+                                                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancelar</a>
+                                                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat pulse">Agregar Comentario</a>
+
+                                                                                    </div>
+                                                                            </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </p>
+
+                                                </li>
+                                                <% z=z+4 %>
+                                                    <% } %>
+                        </ul>
+
+                        </div>
+                    </div>
+                    <p></p>
+
+
+
+                    <!--JavaScript at end of body for optimized loading-->
+                    <script type="text/javascript" src="js/materialize.min.js"></script>
+
+                    <%- include('includes/footer.ejs') %>

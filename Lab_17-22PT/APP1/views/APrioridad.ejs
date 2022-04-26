@@ -1,0 +1,59 @@
+<%- include('includes/head.ejs') %>
+
+    <div class="container">
+        <h1 class="center" id="logo">Asignar Prioridad</h1>
+
+
+
+        <form action="/asignar_prioridad/post_prio/<%= id %>" method="post" id="form" class="respuesta_ajax">
+            <div style="background-color:aliceblue;padding: 12px;  padding-bottom: 50px; padding-left: 10px; padding-right: 10px;border-radius: 4%;">
+                <% for (let ticket of tickets) { %>
+                    <% var estado = '';
+                        if(ticket.ID_estado == 1){ 
+                            estado = 'Nuevo'; 
+                        } else if(ticket.ID_estado == 2){ 
+                            estado = 'En Curso'; 
+                        } else if(ticket.ID_estado == 3){ 
+                            estado = 'En Espera de Información'; 
+                        } else if(ticket.ID_estado == 4){ 
+                            estado = 'En espera de Visto Bueno'; 
+                        } else if(ticket.ID_estado == 5){ 
+                            estado = 'Cancelado'; 
+                        } else if(ticket.ID_estado == 6){ 
+                            estado = 'Resuelto'; } %>
+                        <a id="logo" class="center" for="">Ticket:</a>
+                        <h5 id="logo" class="center" for="">
+                            <%=ticket.titulo%>
+                        </h5>
+                        <a id="logo" class="center" for="">Descripcion:</a>
+                        <h6 id="logo" class="center" for="">
+                            <%=ticket.descripcion%>
+                        </h6>
+                        <a id="logo" class="center" for="">Estado:</a>
+                        <h6 id="logo" class="center" for="">
+                            <%=estado%>
+                        </h6>
+
+                        <% } %>
+                            <div class="centers">
+                                <select class="selectpicker" data-style="btn-info" name="prioridad">
+                                    <optgroup label="Select Table">
+                                        <option id="logo" name="table1" value="1">1 - Por asignar</option>
+                                        <option id="logo" name="table2" value="2">2 - Bajo</option>
+                                        <option id="logo" name="table3" value="3">3 - Medio</option>
+                                        <option id="logo" name="table2" value="4">4 - Alto</option>
+                                        <option id="logo"name="table3" value="5">5 - Urgente</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                            <div class="center ">
+                                <button id="logo" type="submit" class="waves-effect waves-light btn">Guardar</button>
+                                <a id="logo" href="/home" class="waves-effect waves-light btn">Cancelar</a>
+                            </div>
+            </div>
+            <br></br>
+        </form>
+    </div>
+    <br></br>
+
+    <%- include('includes/footer.ejs') %>

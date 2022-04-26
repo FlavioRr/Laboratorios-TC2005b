@@ -1,0 +1,61 @@
+<%- include('includes/head.ejs') %>
+
+    <br><br>
+    <div>
+        <!--Dropdown para cambiar de ticket-->
+        <a id="logo" class="dropdown-trigger btn grey black-text" href="#!" data-target="dropdown1">Cambiar categoría del ticket<i class="material-icons right">arrow_drop_down</i></a>
+
+        <ul id="dropdown1" class=" hide-on-med-and-down dropdown-content">
+            <% for (let categoria of categorias) { %>
+                <li class="">
+                    <a href="/generar_ticket/categoria/<%= categoria.ID_categoria %>/<%= categoria.nombre_categoria %>" class="">
+                        <%= categoria.nombre_categoria %>
+                    </a>
+                </li>
+                <% } %>
+        </ul>
+    </div>
+
+    <h1 id="logo">
+        <%= nombre %>
+    </h1>
+
+
+    <div class="row">
+        <form method="post" class="col s12">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="titulo" name="titulo" type="text" class="validate" required="required">
+                    <label id="logo" for="titulo" style="font-size:16px" class="black-text">Título</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <textarea placeholder="" id="descripcion" name="descripcion" class="materialize-textarea" maxlength="100" required="required"></textarea>
+                    <label id="logo" for="descripcion" style="font-size:18px" class="black-text">Descripción</label>
+                </div>
+            </div>
+
+            <%var j=1; %>
+                <% for (let pregunta of preguntas) { %>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <textarea placeholder="" id="respuesta+<%j%>" name="respuesta<%+j%>" class="materialize-textarea" maxlength="1000" required="required"></textarea>
+                            <label id="logo" for="respuesta+<%j%>" style="font-size:18px" class="black-text"><%= pregunta.texto_pregunta %></label>
+                        </div>
+                    </div>
+                    <div id="idpreg" name="idpreg" style="display:none">
+                        <%= pregunta.ID_pregunta%>
+                    </div>
+                    <%j=j+1;%>
+                        <% } %>
+
+                            <button id="logo" class="btn waves-effect waves-light grey black-text" type="submit" name="action">Enviar
+                <i class="material-icons right">send</i>
+            </button>
+                            <a id="logo" class="waves-effect waves-light btn grey black-text" href="/home">Cancelar</a>
+        </form>
+    </div>
+
+
+    <%- include('includes/footer.ejs') %>

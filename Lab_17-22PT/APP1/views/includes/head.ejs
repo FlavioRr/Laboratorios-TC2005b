@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="author" content="FrameJTech" />
+    <meta name="Keywords" content=" Prototipo, Tickets" />
+    <title>Zebrands</title>
+    <link rel="icon" type="image/jpg" href="/favicon.ico" />
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" media="screen,projection" />
+</head>
+<!-- 
+<body class="grey lighten-4"> -->
+<style type="text/css">
+    /* body {
+        background-image: url("https://images.ecestaticos.com/LtUY2F-tA12ve8aGzYIVgoX8pJo=/0x0:2121x1414/1600x900/filters:fill(white):format(jpg)/f.elconfidencial.com%2Foriginal%2Fd9e%2F66d%2F793%2Fd9e66d793adbc994841e60850a17e61c.jpg");
+    } */
+    
+    body {
+        background-color: #bdbdbd;
+    }
+    
+    #logo {
+        font-family: 'Courier New', Courier, monospace;
+    }
+    
+    #logo1 {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: large;
+    }
+    
+    .sidenav::-webkit-scrollbar {
+        display: none;
+    }
+</style>
+
+<header>
+    <div>
+        <nav class="grey darken-3">
+            <a id="logo" href="/home/" class="brand-logo center">( Zëbrands )</a>
+        </nav>
+
+        <ul id="slide-out" class="sidenav">
+            <li>
+                <div class="user-view">
+                    <div class="row">
+                        <div class="col s4">
+                            <a href="/home"><img class="circle left" src="https://zebrands.mx/wp-content/uploads/2021/07/zebrands.jpg"></a>
+                        </div>
+                        <div class="col s8">
+                            <h5>Bienvenid@,
+                                <%= username %>
+                            </h5>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </li>
+            <% if(rol==3){ %>
+                <li><a href="/generar_ticket/enviar_ticket"><i class="material-icons">add_circle</i>Generar Ticket Nuevo</a></li>
+                <li><a href="/buscar_tickets/propio"><i class="material-icons">assignment_ind</i>Mis tickets</a></li>
+                <li><a href="/users/logout"><i class="material-icons">directions_run</i>Salir de la sesión</a></li>
+                <% } else if (rol==2) { %>
+                    <li><a href="/generar_ticket/enviar_ticket"><i class="material-icons">add_circle</i>Generar Ticket Nuevo</a></li>
+                    <li><a href="/buscar_tickets/activos"><i class="material-icons">assignment</i>Tickets Asignados</a></li>
+                    <li><a href="/buscar_tickets/archivo"><i class="material-icons">archive</i>Tickets Archivados</a></li>
+                    <li><a href="/buscar_tickets/propio"><i class="material-icons">assignment_ind</i>Mis tickets</a></li>
+                    <li><a href="/buscar_usuario/busqueda"><i class="material-icons">account_circle</i>Buscar Usuarios</a></li>
+                    <li><a href="/metricas"><i class="material-icons">insert_chart</i>Metricas</a></li>
+                    <li><a href="/users/logout"><i class="material-icons">directions_run</i>Salir de la sesión</a></li>
+                    <% } else { %>
+                        <li><a href="/generar_ticket/enviar_ticket"><i class="material-icons">add_circle</i>Generar Ticket Nuevo</a></li>
+                        <li><a href="/generar_template/gen_template"><i class="material-icons">add_circle</i>Nuevo Template</a></li>
+                        <li><a href="/modificar_template/get_template"><i class="material-icons">mode_edit</i>Modificar Template</a></li>
+                        <li><a href="/buscar_tickets/activos"><i class="material-icons">assignment</i>Tickets Asignados</a></li>
+                        <li><a href="/buscar_tickets/archivo"><i class="material-icons">archive</i>Tickets Archivados</a></li>
+                        <li><a href="/buscar_tickets/propio"><i class="material-icons">assignment_ind</i>Mis tickets</a></li>
+                        <li><a href="/buscar_usuario/busqueda"><i class="material-icons">account_circle</i>Buscar Usuarios</a></li>
+                        <li><a href="/metricas"><i class="material-icons">insert_chart</i>Metricas</a></li>
+                        <li><a href="/users/logout"><i class="material-icons">directions_run</i>Salir de la sesión</a></li>
+                        <% } %>
+                            <li>
+                                <div class="divider"></div>
+                            </li>
+                            <li><a class="subheader">Manual de Usuario</a></li>
+                            <div class="video-container">
+                                <iframe width="853" height="480" src="//www.youtube.com/embed/Q8TXgCzxEnw?rel=0" frameborder="0" allowfullscreen></iframe>
+                            </div>
+        </ul>
+
+        <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="waves-effect waves-light grey darken-3 material-icons brand-logo left medium">menu</i></a>
+
+        <!-- <div class="fixed-action-btn toolbar">
+						<a class="btn-floating btn-large grey darken-3">
+							<i class="large material-icons">menu</i>
+						</a>
+						<ul id="nav-mobile" class="right hide-on-med-and-down">
+							<li>
+								<a href="GenerarT" class="btn-floating">
+									Generar Ticket<i class="material-icons">assignment</i>
+								</a>
+							</li>
+							<li>
+								<a href="Historial" class="btn-floating"> 
+									Historial<i class="material-icons"> library_books</i>
+								</a>
+							</li>
+							<li>
+								<a href="BuscarTAct" class="btn-floating">
+									Buscar Tickets Activos<i class="material-icons">folder_open</i> 
+								</a>
+							</li>
+							<li>
+								<a href="BuscarUsuarios" class="btn-floating">
+									Buscar Usuarios<i class="material-icons"> folder_shared</i>
+								</a>
+							</li>
+							<li>
+								<a href="Metricas" class="btn-floating">
+									Metricas<i class="material-icons"> assessment</i>
+								</a>
+							</li>
+							
+						</ul>
+					</div>
+				<nav class="grey darken-3">
+					<a href="Primer pantalla" class="brand-logo right ">( Zëbrands )</a>
+					
+				</nav> -->
+    </div>
+
+</header>
+<div class="container">

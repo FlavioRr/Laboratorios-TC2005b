@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Montserrat+Alternates|Poppins&display=swap');
+	
+   
+    
+    button{
+        background-color: #272727;
+        display: block;
+        border: none;
+        width: 170px;
+        color: #fff;
+        height: 40px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 10px;
+        margin-right: 100px;
+
+    }
+    
+    @media screen and (max-width:500px){
+        form{
+            width: 80%;
+        }
+    }

@@ -1,0 +1,35 @@
+<%- include('includes/head.ejs') %>
+
+    <div class="container">
+
+        <h3 id="logo">Por favor, seleccione una de las siguientes categorías:</h3>
+        <ul class="collection">
+            <% for (let categoria of categorias) { %>
+                <li class="col">
+                    <a id="logo" href="/generar_ticket/categoria/<%= categoria.ID_categoria %>/ <%= categoria.nombre_categoria %>" class="collection-item">
+                        <p class="grey-text text-darken-2"><b><i><%= categoria.nombre_categoria %></i></b></p>
+                    </a>
+                </li>
+                <% } %>
+        </ul>
+    </div>
+    <p></p>
+    <div class="center">
+        <a id="logo" class="waves-effect waves-light btn modal-trigger grey lighten-2 black-text" href="#modal1">Cancelar</a>
+
+        <!-- Modal Structure -->
+        <div id="modal1" class="modal">
+            <div class="modal-content">
+                <h4 id="logo">Volver al menu</h4>
+                <p id="logo">Seguro volver a la pagina principal?</p>
+            </div>
+            <div class="modal-footer">
+                <a id="logo" href="/home" class="modal-close waves-effect waves-green btn-flat">Aceptar</a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <%- include('includes/footer.ejs') %>

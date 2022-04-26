@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tickets - Zebrands</title>
+</head>
+
+<body>
+    <h1 id="principal">Zebrands Crear Cuenta</h1>
+    <h2>Sign Up:</h2>
+    <form action="/users/signup" method="POST">
+        <label for="rol">Rol: </label>
+        <input type="text" id="rol" name="rol">
+        <label for="nombre">Nombre: </label>
+        <input type="text" id="nombre" name="nombre">
+        <label for="ApellidoP">Apellido paterno: </label>
+        <input type="text" id="ApellidoP" name="ApellidoP">
+        <label for="ApellidoM">  Apellido Materno: </label>
+        <input type="text" id="ApellidoM" name="ApellidoM">
+        <label for="Email">Correo: </label>
+        <input type="text" id="Email" name="Email">
+        <label for="password">Password: </label>
+        <input type="password" id="password" name="password">
+        <br><br>
+        <input type="submit" value="Enviar">
+        <br><br>
+        <a href="/users/login"><i class="material-icons">Regresar a menú de login</i> </a>
+    </form>
+    <br><br>
+
+</html>

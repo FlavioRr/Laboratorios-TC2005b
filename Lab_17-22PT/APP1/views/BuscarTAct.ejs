@@ -1,0 +1,87 @@
+<%- include('includes/head.ejs') %>
+
+    <ul id="dropdown4" class="dropdown-content">
+        <li><a href="#!">Op1</a></li>
+        <li><a href="#!">Op2</a></li>
+        <li><a href="#!">0p3</a></li>
+    </ul>
+    <ul id="dropdown5" class="dropdown-content">
+        <li><a href="#!">Op1</a></li>
+        <li><a href="#!">Op2</a></li>
+        <li><a href="#!">0p3</a></li>
+    </ul>
+    <nav class="grey darken-3">
+        <div class="nav-wrapper">
+            <ul class="right hide-on-med-and-down">
+                <div class=" right input-field col s6">
+                    <input id="ID" type="text" class="validate">
+                    <label id="logo" for="ID">ID</label>
+                </div>
+                <div class="right input-field col s6">
+                    <input id="first_name" type="text" class="validate">
+                    <label id="logo" for="first_name">Nombre</label>
+                </div>
+                <div class="right input-field col s6">
+                    <input id="second_name" type="text" class="validate">
+                    <label id="logo" for="second_name">Apellido Paterno</label>
+                </div>
+                <div class="right input-field col s6">
+                    <input id="third_name" type="text" class="validate">
+                    <label id="logo" for="third_name">Apellido Materno</label>
+                </div>
+                <li><a id="logo" class="dropdown-trigger grey darken-3" href="#!" data-target="dropdown4">Categoria<i class="material-icons right">arrow_drop_down</i></a></li>
+                <li><a id="logo" class="dropdown-trigger grey darken-3" href="#!" data-target="dropdown5">Prioridad<i class="material-icons right">arrow_drop_down</i></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div>
+
+        <table class="striped responsive-table centered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Dia</th>
+                    <th>Mes</th>
+                    <th>Año</th>
+                    <th>Prioridad</th>
+                    <th>Categoria</th>
+                </tr>
+            </thead>
+
+            <tr>
+                <td>6251463</td>
+                <td>23</td>
+                <td>Ene</td>
+                <td>2022</td>
+                <td>Alta</td>
+                <td>agffaf</td>
+            </tr>
+            <tr>
+                <td>8437456</td>
+                <td>02</td>
+                <td>Sep</td>
+                <td>2022</td>
+                <td>Baja</td>
+                <td>sgfsdga</td>
+            </tr>
+            <tr>
+                <td>2735763</td>
+                <td>05</td>
+                <td>Feb</td>
+                <td>2022</td>
+                <td>Media</td>
+                <td>dfgsdxc</td>
+            </tr>
+            <tr>
+                <td>6835464</td>
+                <td>11</td>
+                <td>Mar</td>
+                <td>2022</td>
+                <td>Urgente</td>
+                <td>fghcdfgbs</td>
+            </tr>
+        </table>
+    </div>
+
+    <%- include('includes/foot.ejs') %>

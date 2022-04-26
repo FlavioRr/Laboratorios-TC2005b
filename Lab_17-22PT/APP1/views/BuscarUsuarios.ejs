@@ -1,0 +1,169 @@
+<%- include('includes/head.ejs') %>
+    <!-- <ul id="dropdown1" class="dropdown-content">
+		<% for (let roles of usuario) { %>
+			<li><a href="#!" id="rol"><%= roles.nombre_rol%></a></li>
+		<% } %>
+	</ul> -->
+    <nav class="grey darken-3">
+        <div class="nav-wrapper">
+            <div class="right input-field col s4">
+                <a id="logo" class="waves-effect waves-light btn grey black-text" href="/buscar_usuario/busqueda">Reiniciar busqueda</a>
+            </div>
+            <div class="right input-field col s4">
+                <label id="logo" for="buscar_rol"><b>Rol del usuario: </b></label>
+                <input type="text" name="buscar_rol" id="buscar_rol">
+            </div>
+            <div class="right input-field col s4">
+                <label id="logo" for="buscar_nombre"><b>Nombre : </b></label>
+                <input type="text" name="buscar_nombre" id="buscar_nombre">
+            </div>
+            <div class="right input-field col s4">
+                <label id="logo" for="buscar_id"><b>ID del usuario: </b></label>
+                <input type="text" name="buscar_id" id="buscar_id">
+            </div>
+            <div class="right input-field col s4">
+                <label id="logo" for="titulo"><b>Filtrar por: </b></label>
+                <input disabled value='' type="text" name="titulo" id="titulo">
+            </div>
+        </div>
+    </nav>
+
+    <div class="row" id="respuesta_ajax">
+        <table>
+            <thead>
+                <tr>
+                    <th id="logo">ID</th>
+                    <th id="logo">Nombre</th>
+                    <th id="logo">Apellido paterno</th>
+                    <th id="logo">Apellido materno</th>
+                    <th id="logo">Correo</th>
+                    <th id="logo">Rol</th>
+                </tr>
+            </thead>
+            <% for (let usuarios of usuario) { %>
+                <tr>
+                    <td>
+                        <%= usuarios.ID_usuario%>
+                    </td>
+                    <td>
+                        <%= usuarios.nombre%>
+                    </td>
+                    <td>
+                        <%= usuarios.apellido_paterno%>
+                    </td>
+                    <td>
+                        <%= usuarios.apellido_materno%>
+                    </td>
+                    <td>
+                        <%= usuarios.correo %>
+                    </td>
+                    <td>
+                        <%= usuarios.nombre_rol %>
+                    </td>
+                    <% if (rol ==1){ %>
+                        <td>
+                            <a id="logo" class="waves-effect waves-light btn grey black-text" href="/asignar_rol/get_usuario/<%= usuarios.ID_usuario %>">Asignar rol</a>
+                        </td>
+                        <% } %>
+                </tr>
+                <% } %>
+        </table>
+        <div class="s12">
+            <ul class="pagination center-align">
+                <% for (let i = 1; i <= Math.ceil(total_usuarios/5); i++) { %>
+                    <li class="active">
+                        <a href="/buscar_usuario/start/<%= (i-1)*5 %>" "><%= i %></a></li>
+            <% } %>
+        </ul>
+    </div>
+</div>
+
+<script>
+
+    const buscar_usuario_filtros = () => {
+        var str1,str2,str3;
+        let bid = document.getElementById('buscar_id');
+        let bnombre = document.getElementById('buscar_nombre');
+        let brol = document.getElementById('buscar_rol');
+        if (bid != null || bnombre != null || brol != null) {
+            str1 = bid.value;
+            str2 = bnombre.value;
+            str3 = brol.value;
+        }
+        else {
+            str1 = '';
+            str2 = '';
+            str3 = '';
+        }
+        const valor_busqueda1 = str1+'&'+str2+'&'+str3;
+        console.log(valor_busqueda1);
+
+        //El token de protección CSRF
+        //const csrf = document.getElementById('_csrf').value;
+
+        //función que manda la petición asíncrona
+        fetch('/buscar_usuario/busqueda/' + valor_busqueda1, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                //'csrf-token': csrf
+            }
+            //body: JSON.stringify(data)
+        }).then(result => {
+            return result.json(); //Regresa otra promesa
+        }).then(data => {
+            //Modificamos el DOM de nuestra página de acuerdo a los datos de la segunda promesa
+            console.log(data);
+            let respuesta = '';
+            respuesta += '<table>'+
+                    '<thead>' +
+                    '	<tr>' +
+                    '		<th>ID</th><th>Nombre</th><th>Apellido paterno</th><th>Apellido materno</th><th>correo</th><th>Rol</th>' +
+                    '	</tr>' +
+                    '</thead>' ;
+            for (let usuarios of data) {
+                respuesta += '<tr>' +
+                    '	<td>' + 
+                        usuarios.ID_usuario + 
+                        '</td><td>' + 
+                        usuarios.nombre + 
+                        '</td><td>' + 
+                        usuarios.apellido_paterno +
+                        '</td><td>' + usuarios.apellido_materno +
+                        '</td><td>' + usuarios.correo + 
+                        '</td><td>' + usuarios.nombre_rol + 
+                        '</td>';
+                        if ( [<%=rol%>] ==1){
+                        respuesta += '<td>' + 
+                        '<a class="waves-effect waves-light btn " href="/asignar_rol/get_usuario/ '+ usuarios.ID_usuario +' ">Asignar rol</a>'+
+                        '</td>';
+                        }
+                    respuesta += '</tr>';
+            }
+            respuesta +='</table>'+
+            '<div class="s12 ">'+
+                '<ul class="pagination center-align ">';
+                    for (let i = 1; i <= Math.ceil(data.lenght/5); i++) {
+                        respuesta += '<li class="active "><a href="/buscar_tickets/start '+tipo+'/ (i-1)*5 ">'+i+'</a></li>';                                    
+                    }
+                respuesta += '</ul>'+
+            '</div>';
+            
+            document.getElementById('respuesta_ajax').innerHTML = respuesta;
+        }).catch(err => {
+            console.log(err);
+        });
+    };
+
+    let bid = document.getElementById('buscar_id');
+    let bnombre = document.getElementById('buscar_nombre');
+    let brol = document.getElementById('buscar_rol');
+    if (bid != null || bnombre != null || brol != null) {
+        document.getElementById('buscar_id').onkeyup = buscar_usuario_filtros;
+        document.getElementById('buscar_nombre').onkeyup = buscar_usuario_filtros;
+        document.getElementById('buscar_rol').onkeyup = buscar_usuario_filtros;
+    }
+
+</script>
+
+<%- include('includes/footer.ejs') %>
